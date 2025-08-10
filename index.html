@@ -21,23 +21,54 @@
             --yellow-color: #f1c40f;
         }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
         body {
             font-family: 'Hind Siliguri', sans-serif;
             background-color: var(--background-color);
             color: var(--text-color);
-            margin: 0; padding: 0;
-            display: flex; justify-content: center; align-items: center;
-            height: 100vh; overflow: hidden; touch-action: none;
+            display: flex;
+            justify-content: center;
+            touch-action: none;
+        }
+
+        #app-wrapper {
+            width: 100%;
+            height: 100%;
+            max-width: 420px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            background: var(--background-color);
         }
 
         /* --- View Management --- */
-        .view {
-            display: none; width: 100%; height: 100%; position: absolute;
-            top: 0; left: 0; animation: fadeIn 0.5s ease-in-out;
-            flex-direction: column; justify-content: flex-start; align-items: center;
-            overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none;
+        .view-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            position: relative;
         }
-        .view::-webkit-scrollbar { display: none; }
+        .view-container::-webkit-scrollbar { display: none; }
+
+        .view {
+            display: none;
+            width: 100%;
+            min-height: 100%;
+            position: absolute;
+            top: 0; left: 0;
+            animation: fadeIn 0.5s ease-in-out;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            box-sizing: border-box;
+        }
         .view.active { display: flex; }
         
         @keyframes fadeIn {
@@ -47,8 +78,10 @@
 
         /* --- Common Page Styles --- */
         .page-container {
-            width: 100%; max-width: 420px;
-            padding: 25px; text-align: center; box-sizing: border-box;
+            width: 100%;
+            padding: 25px;
+            text-align: center;
+            box-sizing: border-box;
         }
         .page-header {
             display: flex; align-items: center; justify-content: center;
@@ -68,11 +101,15 @@
 
         /* --- Mining App Styles --- */
         #mining-section .container {
-            width: 100%; max-width: 420px; height: 100%; max-height: 800px;
+            width: 100%;
+            min-height: 100%;
             background: linear-gradient(145deg, var(--surface-color), #211f42);
-            border-radius: 30px; padding: 25px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            text-align: center; display: flex; flex-direction: column;
-            justify-content: space-between; border: 2px solid var(--secondary-color);
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            display: flex; flex-direction: column;
+            justify-content: space-between;
+            border: 2px solid var(--secondary-color);
             box-sizing: border-box;
         }
         #top-balance-bar {
@@ -110,28 +147,54 @@
             to { text-shadow: 0 0 15px var(--green-glow), 0 0 20px var(--green-glow); }
         }
         #timer { font-size: 1.3em; font-weight: 600; color: #ccc; min-height: 25px; }
+        
+        .button-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
 
         #mining-button, #watch-ad-button {
-            width: 100%; padding: 18px; font-size: 1.5em; font-weight: 700;
-            font-family: 'Hind Siliguri', sans-serif; border: none; border-radius: 15px;
-            cursor: pointer; transition: all 0.3s ease; box-sizing: border-box;
+            flex: 1;
+            padding: 15px 10px;
+            font-size: 1.1em; /* Adjusted for smaller size */
+            font-weight: 700;
+            font-family: 'Hind Siliguri', sans-serif;
+            border: none;
+            border-radius: 12px; /* Adjusted */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         #mining-button {
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: var(--background-color); box-shadow: 0 5px 20px rgba(123, 44, 191, 0.4);
-            margin-bottom: 10px;
+            color: var(--background-color);
+            box-shadow: 0 5px 20px rgba(123, 44, 191, 0.4);
         }
         #mining-button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 229, 255, 0.5); }
         #mining-button:disabled { background: #555; color: #999; cursor: not-allowed; box-shadow: none; transform: none; }
         
         #watch-ad-button {
              background: linear-gradient(45deg, var(--yellow-color), var(--orange-color));
-             color: var(--background-color); margin-bottom: 15px; font-size: 1.2em; padding: 15px;
+             color: var(--background-color);
+        }
+        #watch-ad-button svg {
+            width: 20px;
+            height: 20px;
         }
         
         .nav-bar {
-            display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.2);
-            padding: 10px 5px; border-radius: 15px; border-top: 1px solid var(--secondary-color);
+            width: 100%; max-width: 420px;
+            display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.5);
+            padding: 10px 5px; border-top: 1px solid var(--secondary-color);
+            backdrop-filter: blur(5px);
+            box-sizing: border-box;
+            flex-shrink: 0;
         }
         .nav-bar button {
             background: transparent; border: none; color: var(--text-color); cursor: pointer;
@@ -141,34 +204,50 @@
         .nav-bar button:hover, .nav-bar button.active { color: var(--primary-color); }
         .nav-bar svg { width: 28px; height: 28px; }
         
-        /* --- Plans Section --- */
-        #plans-section .plan-grid { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; }
-        .plan-card {
+        /* --- Create Task & Deposit Section --- */
+        #create-task-section .balance-info {
+            font-size: 1.2em; margin-bottom: 20px;
+            background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px;
+        }
+        #create-task-section .balance-info strong { color: var(--green-glow); }
+        #create-task-section .task-package-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; margin-bottom: 20px; }
+        .task-package-card {
             background: linear-gradient(145deg, var(--surface-color), #211f42);
-            border: 1px solid var(--secondary-color); border-radius: 15px; padding: 20px;
-            text-align: left; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid var(--secondary-color); border-radius: 15px; padding: 15px;
+            text-align: left; cursor: pointer; position: relative;
         }
-        .plan-card.free-plan { border-color: var(--primary-color); }
-        .plan-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px var(--glow-color); }
-        .plan-card h3 { color: var(--primary-color); margin: 0 0 15px 0; font-size: 1.5em; text-align: center; }
-        .plan-details { list-style: none; padding: 0; margin: 0 0 20px 0; }
-        .plan-details li { margin-bottom: 8px; font-size: 1em; display: flex; justify-content: space-between; }
-        .plan-details li span { color: #ccc; }
-        .plan-details li strong { color: white; font-weight: 600; }
-        .plan-details .roi.positive { color: var(--green-glow); }
-        .plan-details .roi.negative { color: var(--red-glow); }
-        .buy-plan-btn {
-            width: 100%; padding: 12px; font-size: 1.2em; font-weight: 700;
-            background: linear-gradient(45deg, var(--yellow-color), var(--orange-color));
+        .task-package-card:has(input:checked) { border-color: var(--primary-color); box-shadow: 0 0 15px var(--glow-color); }
+        .task-package-card input[type="radio"] { position: absolute; opacity: 0; }
+        .task-package-card h3 { color: var(--primary-color); margin: 0 0 10px 0; }
+        .task-package-card p { margin: 0; color: var(--text-color); font-size: 1.1em; }
+        .task-package-card p strong { color: var(--yellow-color); }
+        
+        #create-task-btn, #deposit-usdt-btn {
+            width: 100%; padding: 15px; font-size: 1.3em; font-weight: 700;
             color: var(--background-color); border: none; border-radius: 10px; cursor: pointer;
+            margin-top: 10px;
         }
-        .buy-plan-btn.ad-btn { background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); }
-        .plans-divider { text-align: center; color: var(--primary-color); margin: 20px 0; font-weight: bold; }
+        #create-task-btn { background: linear-gradient(45deg, var(--green-glow), var(--primary-color)); }
+        #deposit-usdt-btn { background: linear-gradient(45deg, var(--yellow-color), var(--orange-color)); }
+
+        /* --- Invite Section --- */
+        #invite-section .invite-box { background: var(--surface-color); padding: 25px; border-radius: 15px; border: 1px solid var(--secondary-color); }
+        #invite-section h3 { margin-top: 0; color: var(--primary-color); }
+        #invite-section p { color: #ccc; }
+        #invite-section .referral-link-container { display: flex; margin-top: 20px; }
+        #invite-section #referral-link { flex-grow: 1; background: var(--background-color); border: 1px solid var(--secondary-color); border-radius: 8px 0 0 8px; padding: 12px; color: white; }
+        #invite-section #copy-ref-btn { background: var(--primary-color); color: var(--background-color); border: none; padding: 0 15px; border-radius: 0 8px 8px 0; font-weight: bold; cursor: pointer; }
+
+        /* --- Deposit Modal --- */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+        .modal-content { background: var(--surface-color); padding: 25px; border-radius: 15px; border: 1px solid var(--primary-color); text-align: center; width: 90%; max-width: 380px; box-shadow: 0 0 25px var(--glow-color); position: relative; }
+        .close-modal-btn { position: absolute; top: 10px; right: 15px; color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        #deposit-qr-code { background: white; padding: 10px; border-radius: 8px; margin: 15px auto; display: inline-block; }
+        #deposit-address { background: var(--background-color); padding: 10px; border-radius: 8px; word-wrap: break-word; margin-bottom: 10px; font-family: monospace; }
+        #copy-deposit-addr-btn { background: var(--primary-color); color: var(--background-color); padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
         
-        /* --- Tasks Section --- */
+        /* --- Other Sections --- */
         #tasks-section .task-placeholder { margin-top: 50px; font-size: 1.3em; color: #aaa; }
-        
-        /* --- Withdrawal Section --- */
         #withdrawal-section .withdrawal-form {
             background: var(--surface-color); padding: 20px; border-radius: 15px;
             border: 1px solid var(--secondary-color); margin-bottom: 25px;
@@ -188,7 +267,6 @@
         .withdraw-btn.bkash { background-color: #e2136e; color: white; }
         .withdraw-btn.binance { background-color: #f0b90b; color: #1e2329; }
 
-
         /* --- Game Section --- */
         #game-section { background-color: #333; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         #game-section #back-to-mining-game { position: absolute; top: 15px; right: 15px; z-index: 20; background: var(--yellow-color); color: #333; border: none; padding: 8px 15px; border-radius: 10px; font-family: 'Hind Siliguri', sans-serif; cursor: pointer; font-weight: bold; }
@@ -206,204 +284,262 @@
         #game-section #restart-button { padding: 12px 25px; font-size: 1.1em; cursor: pointer; background-color: var(--green-glow); color: var(--background-color); border: none; border-radius: 5px; margin-top: 15px; font-weight: bold; }
         #game-section #restart-button:hover { filter: brightness(1.1); }
     </style>
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.js"></script>
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/web-app.js"></script>
+    <!-- Ad SDKs -->
+    <script src="https://ad.gigapub.tech/script?id=1470"></script>
+    <script src='//libtl.com/sdk.js' data-zone='9689843' data-sdk='show_9689843'></script>
 </head>
 <body>
-
-    <!-- Mining App View -->
-    <div id="mining-section" class="view active">
-        <div class="container">
-            <div>
-                <div id="top-balance-bar">
-                    <div>PG <span id="pg-balance-top">0.0000</span></div>
-                    <div>$ <span id="usd-balance-top">0.00</span></div>
-                </div>
-                <h1>PG Coin Mining</h1>
-                <div class="mining-display">
-                    <h2>Your Balance</h2>
-                    <p id="balance">0.0000 PG</p>
-                    <div class="action-boxes">
-                        <div class="action-box" onclick="handleInviteClick()">
-                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a4 4 0 0 0-4 4v2H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h2z"/></svg>
-                            <span>Invite</span>
+    <div id="app-wrapper">
+        <div class="view-container">
+            <!-- Mining App View -->
+            <div id="mining-section" class="view active">
+                <div class="container">
+                    <div>
+                        <div id="top-balance-bar">
+                            <div>PG <span id="pg-balance-top">0.0000</span></div>
+                            <div>$ <span id="usd-balance-top">0.00</span></div>
                         </div>
-                        <div class="action-box" onclick="handleConvertClick()">
-                            <svg fill="currentColor" viewBox="0 0 24 24"><path d="m21.435 2.585-2.02 2.02c-1.39-1.12-3.23-1.6-5.06-1.6h-1.355L14.435 6H7.565L6.13 3.005H5.06c-3.61 0-6.68 2.68-7.04 6.22l2.12.35c.32-2.82 2.89-5.07 5.86-5.07h.75l1.435 3h6.87l1.435-3h.75c2.97 0 5.54 2.25 5.86 5.07l2.12-.35c-.35-3.54-3.42-6.22-7.03-6.22zm-18.87 18.83 2.02-2.02c1.39 1.12 3.23 1.6 5.06 1.6h1.355L9.565 18h6.87l1.435 2.995h1.075c3.61 0 6.68-2.68 7.04-6.22l-2.12-.35c-.32 2.82-2.89 5.07-5.86 5.07h-.75L14.565 21H7.695l-1.435-3h-.75c-2.97 0-5.54-2.25-5.86-5.07l-2.12.35c.35 3.54 3.42 6.22 7.03 6.22z"/></svg>
-                            <span>CVT</span>
+                        <h1>PG Coin Mining</h1>
+                        <div class="mining-display">
+                            <h2>Your Balance</h2>
+                            <p id="balance">0.0000 PG</p>
+                            <div class="action-boxes">
+                                <div class="action-box" onclick="showView('invite-section')">
+                                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a4 4 0 0 0-4 4v2H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h2z"/></svg>
+                                    <span>Invite</span>
+                                </div>
+                                <div class="action-box" onclick="handleConvertClick()">
+                                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="m21.435 2.585-2.02 2.02c-1.39-1.12-3.23-1.6-5.06-1.6h-1.355L14.435 6H7.565L6.13 3.005H5.06c-3.61 0-6.68 2.68-7.04 6.22l2.12.35c.32-2.82 2.89-5.07 5.86-5.07h.75l1.435 3h6.87l1.435-3h.75c2.97 0 5.54 2.25 5.86 5.07l2.12-.35c-.35-3.54-3.42-6.22-7.03-6.22zm-18.87 18.83 2.02-2.02c1.39 1.12 3.23 1.6 5.06 1.6h1.355L9.565 18h6.87l1.435 2.995h1.075c3.61 0 6.68-2.68 7.04-6.22l-2.12-.35c-.32 2.82-2.89 5.07-5.86 5.07h-.75L14.565 21H7.695l-1.435-3h-.75c-2.97 0-5.54-2.25-5.86-5.07l-2.12.35c.35 3.54 3.42 6.22 7.03 6.22z"/></svg>
+                                    <span>CVT</span>
+                                </div>
+                            </div>
+                            <p id="status-container">Status: <span id="status" class="stopped">Stopped</span></p>
+                            <p id="timer"></p>
+                        </div>
+                        <div class="button-row">
+                           <button id="mining-button">Start Mining</button>
+                           <button id="watch-ad-button">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M21.406 8.442a2.368 2.368 0 0 0-1.666-1.696C18.15 6.25 12 6.25 12 6.25s-6.15 0-7.74.496a2.368 2.368 0 0 0-1.666 1.696C2.1 10.046 2.1 12 2.1 12s0 1.954.494 3.558a2.368 2.368 0 0 0 1.666 1.696c1.59.496 7.74.496 7.74.496s6.15 0 7.74-.496a2.368 2.368 0 0 0 1.666-1.696C21.9 13.954 21.9 12 21.9 12s0-1.954-.494-3.558zM9.9 14.5v-5l4.5 2.5-4.5 2.5z"/></svg>
+                                <span>Daily Claim Rewards</span>
+                           </button>
                         </div>
                     </div>
-                    <p id="status-container">Status: <span id="status" class="stopped">Stopped</span></p>
-                    <p id="timer"></p>
                 </div>
-                <button id="mining-button">Start Mining</button>
-                <button id="watch-ad-button" onclick="handleWatchAd()">Watch Ads for Rewards</button>
             </div>
-            <div class="nav-bar">
-                 <button onclick="showView('mining-section')" class="active">
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12.71 2.29a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42A1 1 0 0 0 3 13h1v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7h1a1 1 0 0 0 .71-1.71zM18 20H6v-9.59l6-6 6 6z"/></svg>
-                    <span>Home</span></button>
-                 <button onclick="showView('tasks-section')">
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M15.54 10.5h-1a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm-5.08 0H7.2a.5.5 0 0 1 0-1h3.26a.5.5 0 0 1 0 1zm5.08 4h-1a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm-5.08 0H7.2a.5.5 0 0 1 0-1h3.26a.5.5 0 0 1 0 1zM21 4H3a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-1 14H4V6h16z"/></svg>
-                    <span>Tasks</span></button>
-                <button onclick="showView('plans-section')">
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm3.414 12.828-5.656 2.828-2.828-5.656 5.656-2.828 2.828 5.656zM12 10c-1.103 0-2 .897-2 2s.897 2 2 2 2-.897 2-2-.897-2-2-2z"/></svg>
-                    <span>Plans</span></button>
-                <button onclick="showView('withdrawal-section')">
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2v12zM9 4h6v2H9V4zm10 6H5v10h14V10z"></path><path d="M11 12h2v6h-2z"/></svg>
-                    <span>Withdraw</span></button>
-                <button onclick="showView('game-section')">
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M3.5 11c.41 0 .79-.13 1.11-.34a.5.5 0 0 1 .45.89 2.49 2.49 0 0 1-3.12 0 .5.5 0 0 1 .45-.89A1.49 1.49 0 0 1 3.5 11zm17 0a1.49 1.49 0 0 1 1.11.34.5.5 0 0 1 .45-.89 2.49 2.49 0 0 1-3.12 0 .5.5 0 0 1 .45.89A1.49 1.49 0 0 1 20.5 11zM12 4.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zM6.27 6.27a.5.5 0 0 1 .71 0l.7.7a.5.5 0 0 1-.7.71l-.71-.7a.5.5 0 0 1 0-.71zm11.46 0a.5.5 0 0 1 .71.71l-.7.7a.5.5 0 0 1-.71-.7l.7-.7a.5.5 0 0 1 .01 0zM12 13a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0-5a2 2 0 1 0 2 2 2 2 0 0 0-2-2zm-1 12.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zM12 22a7 7 0 0 1-7-7 .5.5 0 0 1 1 0 6 6 0 0 0 12 0 .5.5 0 0 1 1 0 7 7 0 0 1-7 7z"/></svg>
-                    <span>Game</span></button>
+            
+            <!-- Other Views -->
+            <div id="tasks-section" class="view">
+                <div class="page-container">
+                    <div class="page-header">
+                        <button class="back-button" onclick="showView('mining-section')">‹</button>
+                        <h2 class="page-title">Available Tasks</h2>
+                    </div>
+                    <p class="task-placeholder">New tasks from advertisers will appear here!</p>
+                </div>
             </div>
+
+            <div id="invite-section" class="view">
+                <div class="page-container">
+                    <div class="page-header">
+                        <button class="back-button" onclick="showView('mining-section')">‹</button>
+                        <h2 class="page-title">Invite Friends</h2>
+                    </div>
+                    <div class="invite-box">
+                        <h3>Share Your Link</h3>
+                        <p>Invite friends and earn <strong>2.5 HP</strong> for each referral!</p>
+                        <div class="referral-link-container">
+                            <input type="text" id="referral-link" readonly value="Loading...">
+                            <button id="copy-ref-btn" onclick="copyReferralLink()">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div id="create-task-section" class="view">
+                <div class="page-container">
+                     <div class="page-header">
+                        <button class="back-button" onclick="showView('mining-section')">‹</button>
+                        <h2 class="page-title">Create a Task</h2>
+                    </div>
+                    <div class="balance-info">Your USDT Balance: <strong id="task-usdt-balance">0.00</strong></div>
+                    <p>Deposit USDT to create tasks for others.</p>
+                    
+                    <div id="task-package-form">
+                        <div class="task-package-grid">
+                            <label class="task-package-card"><input type="radio" name="task_package" value="0.5"><h3>500 Tasks</h3><p>Price: <strong>$0.50</strong></p></label>
+                            <label class="task-package-card"><input type="radio" name="task_package" value="0.9"><h3>1,000 Tasks</h3><p>Price: <strong>$0.90</strong></p></label>
+                            <label class="task-package-card"><input type="radio" name="task_package" value="1.7"><h3>2,000 Tasks</h3><p>Price: <strong>$1.70</strong></p></label>
+                            <label class="task-package-card"><input type="radio" name="task_package" value="3.5"><h3>5,000 Tasks</h3><p>Price: <strong>$3.50</strong></p></label>
+                            <label class="task-package-card"><input type="radio" name="task_package" value="8"><h3>10,000 Tasks</h3><p>Price: <strong>$8.00</strong></p></label>
+                        </div>
+                        <button id="create-task-btn" onclick="handleCreateTask()">Create Task</button>
+                        <button id="deposit-usdt-btn" onclick="showDepositModal()">Deposit USDT</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="withdrawal-section" class="view">
+                <div class="page-container">
+                    <div class="page-header">
+                        <button class="back-button" onclick="showView('mining-section')">‹</button>
+                        <h2 class="page-title">Withdrawal</h2>
+                    </div>
+                    <div class="withdrawal-form">
+                        <h3>Withdraw PG Coin</h3>
+                        <p>Available: <span id="withdraw-pg-balance">0.0000</span> PG</p>
+                        <p>Minimum: 25 PG | Rate: 25 PG = 60 BDT / $0.50</p>
+                        <input type="number" id="pg-withdraw-amount" placeholder="Amount (e.g., 25)">
+                        <input type="text" id="pg-withdraw-address" placeholder="bKash Number or Binance UID">
+                        <div class="withdraw-btn-group">
+                            <button class="withdraw-btn bkash" onclick="handleWithdraw('pg', 'bkash')">bKash</button>
+                            <button class="withdraw-btn binance" onclick="handleWithdraw('pg', 'binance')">Binance</button>
+                        </div>
+                    </div>
+                    <div class="withdrawal-form">
+                        <h3>Withdraw USDT</h3>
+                        <p>Available: <span id="withdraw-usdt-balance">0.000000</span> USDT</p>
+                        <p>Minimum: 1 USDT | Rate: 1 USDT = 120 BDT</p>
+                        <input type="number" id="usdt-withdraw-amount" placeholder="Amount (e.g., 1.5)">
+                        <input type="text" id="usdt-withdraw-address" placeholder="bKash Number or Binance UID">
+                        <div class="withdraw-btn-group">
+                            <button class="withdraw-btn bkash" onclick="handleWithdraw('usdt', 'bkash')">bKash</button>
+                            <button class="withdraw-btn binance" onclick="handleWithdraw('usdt', 'binance')">Binance</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div id="game-section" class="view">
+                <button id="back-to-mining-game">Go Back</button>
+                <h1>❄️ Snow & Coin Catcher 💸</h1>
+                <div id="scoreboard">
+                    <span>Score: </span><span id="score">0</span> | 
+                    <span>Missed: </span><span id="missed">0</span> |
+                    <span>USDT: </span><span id="usdt-score">0.000000</span> |
+                    <span>Time: </span><span id="timer-value">60</span>s
+                </div>
+                <div id="game-container">
+                    <div id="game-over">
+                        <h2 id="game-over-title">Game Over!</h2>
+                        <p>Your Final Score: <span id="final-score">0</span></p>
+                        <p>Your Total USDT: <span id="final-usdt-score">0.000000</span></p>
+                        <button id="restart-button">Play Again</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-bar">
+             <button onclick="showView('mining-section')" class="active">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12.71 2.29a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42A1 1 0 0 0 3 13h1v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7h1a1 1 0 0 0 .71-1.71zM18 20H6v-9.59l6-6 6 6z"/></svg>
+                <span>Home</span></button>
+             <button onclick="showView('tasks-section')">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M15.54 10.5h-1a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm-5.08 0H7.2a.5.5 0 0 1 0-1h3.26a.5.5 0 0 1 0 1zm5.08 4h-1a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm-5.08 0H7.2a.5.5 0 0 1 0-1h3.26a.5.5 0 0 1 0 1zM21 4H3a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-1 14H4V6h16z"/></svg>
+                <span>Tasks</span></button>
+            <button onclick="showView('create-task-section')">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.29 4.29l-1.58 1.58C19.8 6.45 20 7.21 20 8s-.2 1.55-.58 2.13l1.58 1.58c.87-1.12 1-2.67 1-4.71s-.13-3.59-1-4.71zM4 8c0-.79.2-1.55.59-2.13L2.71 4.29C1.83 5.41 1.71 6.96 1.71 9s.13 3.59 1 4.71l1.88-1.88C4.2 11.27 4 10.53 4 9.79V8zm12-2h-4v4h4V6zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                <span>Advertise</span></button>
+            <button onclick="showView('withdrawal-section')">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2v12zM9 4h6v2H9V4zm10 6H5v10h14V10z"></path><path d="M11 12h2v6h-2z"/></svg>
+                <span>Withdraw</span></button>
+            <button onclick="showView('game-section')">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M3.5 11c.41 0 .79-.13 1.11-.34a.5.5 0 0 1 .45.89 2.49 2.49 0 0 1-3.12 0 .5.5 0 0 1 .45-.89A1.49 1.49 0 0 1 3.5 11zm17 0a1.49 1.49 0 0 1 1.11.34.5.5 0 0 1 .45-.89 2.49 2.49 0 0 1-3.12 0 .5.5 0 0 1 .45.89A1.49 1.49 0 0 1 20.5 11zM12 4.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zM6.27 6.27a.5.5 0 0 1 .71 0l.7.7a.5.5 0 0 1-.7.71l-.71-.7a.5.5 0 0 1 0-.71zm11.46 0a.5.5 0 0 1 .71.71l-.7.7a.5.5 0 0 1-.71-.7l.7-.7a.5.5 0 0 1 .01 0zM12 13a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0-5a2 2 0 1 0 2 2 2 2 0 0 0-2-2zm-1 12.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zM12 22a7 7 0 0 1-7-7 .5.5 0 0 1 1 0 6 6 0 0 0 12 0 .5.5 0 0 1 1 0 7 7 0 0 1-7 7z"/></svg>
+                <span>Game</span></button>
         </div>
     </div>
     
-    <!-- Other Views: Tasks, Plans, Withdrawal -->
-    <div id="tasks-section" class="view">
-        <div class="page-container">
-            <div class="page-header">
-                <button class="back-button" onclick="showView('mining-section')">‹</button>
-                <h2 class="page-title">Daily Tasks</h2>
-            </div>
-            <p class="task-placeholder">New tasks are coming soon...!</p>
-        </div>
-    </div>
-
-    <div id="plans-section" class="view">
-        <div class="page-container">
-             <div class="page-header">
-                <button class="back-button" onclick="showView('mining-section')">‹</button>
-                <h2 class="page-title">Mining Plans</h2>
-            </div>
-            <div class="plan-grid">
-                <div class="plan-card free-plan">
-                    <h3>Free Plan</h3>
-                    <ul class="plan-details">
-                        <li><span>💰 Price:</span> <strong>Free</strong></li>
-                        <li><span>⚙️ Hash Power:</span> <strong>50 HP</strong></li>
-                        <li><span>📈 Daily Income:</span> <strong>0.63 PG</strong></li>
-                        <li><span>🎁 Bonus:</span> <strong>Refer 1 friend = +5 HP</strong></li>
-                        <li><span>💸 Withdraw:</span> <strong>❌ Not available</strong></li>
-                    </ul>
-                </div>
-                <div class="plans-divider">👇 UPGRADE TO UNLOCK FULL EARNING 👇</div>
-                <div class="plan-card">
-                    <h3>🟢 BASIC START</h3>
-                    <ul class="plan-details">
-                        <li><span>💵 Price:</span> <strong>$1</strong></li><li><span>⚙️ Hash Power:</span> <strong>100 HP</strong></li>
-                        <li><span>📅 Duration:</span> <strong>30 Days</strong></li><li><span>📈 Daily PG:</span> <strong>1.26 PG</strong></li>
-                        <li><span>🎁 Total PG:</span> <strong>37.8 PG</strong></li><li><span>💰 Value:</span> <strong>$1.05</strong></li>
-                        <li><span>📊 ROI:</span> <strong class="roi positive">+5%</strong></li>
-                    </ul><button class="buy-plan-btn" onclick="buyPlan(1)">Buy Now</button></div>
-                <div class="plan-card">
-                    <h3>🔵 STARTER PLUS</h3>
-                    <ul class="plan-details">
-                        <li><span>💵 Price:</span> <strong>$3</strong></li><li><span>⚙️ Hash Power:</span> <strong>350 HP</strong></li>
-                        <li><span>📅 Duration:</span> <strong>30 Days</strong></li><li><span>📈 Daily PG:</span> <strong>4.41 PG</strong></li>
-                        <li><span>🎁 Total PG:</span> <strong>132.3 PG</strong></li><li><span>💰 Value:</span> <strong>$2.65</strong></li>
-                        <li><span>📊 ROI:</span> <strong class="roi negative">-11.6%</strong></li>
-                    </ul><button class="buy-plan-btn" onclick="buyPlan(3)">Buy Now</button></div>
-                <div class="plan-card">
-                    <h3>🟣 SILVER BOOST</h3>
-                    <ul class="plan-details">
-                        <li><span>💵 Price:</span> <strong>$5</strong></li><li><span>⚙️ Hash Power:</span> <strong>700 HP</strong></li>
-                        <li><span>📅 Duration:</span> <strong>30 Days</strong></li><li><span>📈 Daily PG:</span> <strong>9.24 PG</strong></li>
-                        <li><span>🎁 Total PG:</span> <strong>277.2 PG</strong></li><li><span>💰 Value:</span> <strong>$5.54</strong></li>
-                        <li><span>📊 ROI:</span> <strong class="roi positive">+10.8%</strong></li>
-                    </ul><button class="buy-plan-btn" onclick="buyPlan(5)">Buy Now</button></div>
-                <div class="plan-card">
-                    <h3>🟠 GOLD MINER</h3>
-                    <ul class="plan-details">
-                        <li><span>💵 Price:</span> <strong>$10</strong></li><li><span>⚙️ Hash Power:</span> <strong>1600 HP</strong></li>
-                        <li><span>📅 Duration:</span> <strong>30 Days</strong></li><li><span>📈 Daily PG:</span> <strong>21.84 PG</strong></li>
-                        <li><span>🎁 Total PG:</span> <strong>655.2 PG</strong></li><li><span>💰 Value:</span> <strong>$13.10</strong></li>
-                        <li><span>📊 ROI:</span> <strong class="roi positive">+31%</strong></li>
-                    </ul><button class="buy-plan-btn" onclick="buyPlan(10)">Buy Now</button></div>
-                <div class="plan-card">
-                    <h3>🔶 DIAMOND PRO</h3>
-                    <ul class="plan-details">
-                        <li><span>💵 Price:</span> <strong>$25</strong></li><li><span>⚙️ Hash Power:</span> <strong>4000 HP</strong></li>
-                        <li><span>📅 Duration:</span> <strong>45 Days</strong></li><li><span>📈 Daily PG:</span> <strong>73.33 PG</strong></li>
-                        <li><span>🎁 Total PG:</span> <strong>3300 PG</strong></li><li><span>💰 Value:</span> <strong>$66.00</strong></li>
-                        <li><span>📊 ROI:</span> <strong class="roi positive">+110% (MAX)</strong></li>
-                    </ul><button class="buy-plan-btn" onclick="buyPlan(25)">Buy Now</button></div>
-            </div>
+    <!-- Deposit Modal -->
+    <div id="deposit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn" onclick="closeDepositModal()">&times;</span>
+            <h3>Deposit USDT (BEP20)</h3>
+            <p>Send only USDT on the BEP20 (BSC) network to this address.</p>
+            <div id="deposit-qr-code"></div>
+            <div id="deposit-address">0xed5ff44a662b71023b082f5915faa49e3d386a1c</div>
+            <button id="copy-deposit-addr-btn" onclick="copyDepositAddress()">Copy Address</button>
+            <p style="font-size: 0.8em; color: var(--yellow-color); margin-top: 15px;">Your balance will be updated automatically after network confirmations. This may take a few minutes.</p>
         </div>
     </div>
     
-    <div id="withdrawal-section" class="view">
-        <div class="page-container">
-            <div class="page-header">
-                <button class="back-button" onclick="showView('mining-section')">‹</button>
-                <h2 class="page-title">Withdrawal</h2>
-            </div>
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+        import { getDatabase, ref, onValue, set, update, get } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA7yFi1kEQD2xq51hkdpzE7ppBzpfL9UaU",
+            authDomain: "pgenix-1666b.firebaseapp.com",
+            databaseURL: "https://pgenix-1666b-default-rtdb.firebaseio.com",
+            projectId: "pgenix-1666b",
+            storageBucket: "pgenix-1666b.firebasestorage.app",
+            messagingSenderId: "162586059166",
+            appId: "1:162586059166:web:7d1794b1da42b63879b68f",
+            measurementId: "G-1VQ22H5XC7"
+        };
 
-            <!-- PG Coin Withdrawal -->
-            <div class="withdrawal-form">
-                <h3>Withdraw PG Coin</h3>
-                <p>Available: <span id="withdraw-pg-balance">0.0000</span> PG</p>
-                <p>Minimum: 25 PG | Rate: 25 PG = 60 BDT / $0.50</p>
-                <input type="number" id="pg-withdraw-amount" placeholder="Amount (e.g., 25)">
-                <input type="text" id="pg-withdraw-address" placeholder="bKash Number or Binance UID">
-                <div class="withdraw-btn-group">
-                    <button class="withdraw-btn bkash" onclick="handleWithdraw('pg', 'bkash')">bKash</button>
-                    <button class="withdraw-btn binance" onclick="handleWithdraw('pg', 'binance')">Binance</button>
-                </div>
-            </div>
-
-            <!-- USDT Withdrawal -->
-            <div class="withdrawal-form">
-                <h3>Withdraw USDT</h3>
-                <p>Available: <span id="withdraw-usdt-balance">0.000000</span> USDT</p>
-                <p>Minimum: 1 USDT | Rate: 1 USDT = 120 BDT</p>
-                <input type="number" id="usdt-withdraw-amount" placeholder="Amount (e.g., 1.5)">
-                <input type="text" id="usdt-withdraw-address" placeholder="bKash Number or Binance UID">
-                <div class="withdraw-btn-group">
-                    <button class="withdraw-btn bkash" onclick="handleWithdraw('usdt', 'bkash')">bKash</button>
-                    <button class="withdraw-btn binance" onclick="handleWithdraw('usdt', 'binance')">Binance</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Game View -->
-    <div id="game-section" class="view">
-        <button id="back-to-mining-game">Go Back</button>
-        <h1>❄️ Snow & Coin Catcher 💸</h1>
-        <div id="scoreboard">
-            <span>Score: </span><span id="score">0</span> | 
-            <span>Missed: </span><span id="missed">0</span> |
-            <span>USDT: </span><span id="usdt-score">0.000000</span> |
-            <span>Time: </span><span id="timer-value">60</span>s
-        </div>
-        <div id="game-container">
-            <div id="game-over">
-                <h2 id="game-over-title">Game Over!</h2>
-                <p>Your Final Score: <span id="final-score">0</span></p>
-                <p>Your Total USDT: <span id="final-usdt-score">0.000000</span></p>
-                <button id="restart-button">Play Again</button>
-            </div>
-        </div>
-    </div>
-
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase(app);
+        
+        // Make Firebase services globally available for the main script
+        window.firebaseServices = { db, ref, onValue, set, update, get };
+    </script>
+    
+    <!-- Adexium Ads -->
+    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const adexiumWidget = new AdexiumWidget({wid: '591a49b2-631d-4270-ad75-bf7afd247d5f', adFormat: 'interstitial'});
+                adexiumWidget.autoMode();
+            } catch (e) {
+                console.error("Adexium widget failed to initialize:", e);
+            }
+        });
+    </script>
 
     <script>
         // --- MASTER SCRIPT ---
+        let currentUserId = null; // This will hold the user's ID
+        
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
             const newView = document.getElementById(viewId);
             if(newView) newView.classList.add('active');
             
             document.querySelectorAll('.nav-bar button').forEach(button => button.classList.remove('active'));
-            let activeNav = viewId;
-            if (['tasks-section', 'plans-section', 'withdrawal-section'].includes(viewId)) {
-                activeNav = 'mining-section'; // Keep Home active for sub-pages
-            }
-            const activeBtn = document.querySelector(`.nav-bar button[onclick="showView('${activeNav}')"]`);
-            if (activeBtn) activeBtn.classList.add('active');
+            const navMap = {
+                'tasks-section': 'tasks-section',
+                'create-task-section': 'create-task-section',
+                'withdrawal-section': 'withdrawal-section',
+                'game-section': 'game-section',
+                'invite-section': 'mining-section', 
+                'mining-section': 'mining-section'
+            };
+
+            const navButtonSelector = `.nav-bar button[onclick*="'${navMap[viewId] || 'mining-section'}"]`;
+            const activeBtn = document.querySelector(navButtonSelector);
+            if(activeBtn) activeBtn.classList.add('active');
             
             if (viewId === 'withdrawal-section') {
-                document.getElementById('withdraw-pg-balance').textContent = MiningApp.pgBalance.toFixed(4);
-                document.getElementById('withdraw-usdt-balance').textContent = MiningApp.usdtBalance.toFixed(6);
+                document.getElementById('withdraw-pg-balance').textContent = MiningApp.userData.pgBalance.toFixed(4);
+                document.getElementById('withdraw-usdt-balance').textContent = MiningApp.userData.usdtBalance.toFixed(6);
+            }
+            if(viewId === 'create-task-section'){
+                document.getElementById('task-usdt-balance').textContent = MiningApp.userData.usdtBalance.toFixed(2);
+            }
+            if(viewId === 'invite-section'){
+                if (currentUserId) {
+                    document.getElementById('referral-link').value = `https://t.me/YourBotName?start=${currentUserId}`; // Example Telegram link
+                }
             }
 
             if (viewId === 'game-section') {
@@ -413,6 +549,50 @@
                 if (SnowCatcherGame.isInitialized) SnowCatcherGame.endGame('view-switch');
             }
         }
+        
+        function showRandomAd(onSuccess, onError) {
+            const adFunctions = [
+                () => { // GigaPub
+                    if (typeof window.showGiga === 'function') {
+                        window.showGiga("main").then(onSuccess).catch(onError);
+                    } else {
+                        console.error("GigaPub SDK not available.");
+                        onError("Ad provider not available.");
+                    }
+                },
+                () => { // Monetag
+                    if (typeof show_9689843 === 'function') {
+                        show_9689843().then(onSuccess).catch(onError);
+                    } else {
+                        console.error("Monetag SDK not available.");
+                        onError("Ad provider not available.");
+                    }
+                }
+            ];
+            // Show a random ad
+            const randomAd = adFunctions[Math.floor(Math.random() * adFunctions.length)];
+            randomAd();
+        }
+
+        function showDepositModal() {
+            const depositAddress = "0xed5ff44a662b71023b082f5915faa49e3d386a1c";
+            const qrCodeContainer = document.getElementById('deposit-qr-code');
+            qrCodeContainer.innerHTML = '';
+            const qr = qrcode(0, 'M');
+            qr.addData(depositAddress);
+            qr.make();
+            qrCodeContainer.innerHTML = qr.createImgTag(4);
+            document.getElementById('deposit-modal').style.display = 'flex';
+        }
+        function closeDepositModal() { document.getElementById('deposit-modal').style.display = 'none'; }
+        function copyDepositAddress() {
+            const address = document.getElementById('deposit-address').textContent;
+            navigator.clipboard.writeText(address).then(() => alert('Address copied to clipboard!'));
+        }
+        function copyReferralLink() {
+            const link = document.getElementById('referral-link').value;
+            navigator.clipboard.writeText(link).then(() => alert('Referral link copied!'));
+        }
 
         // --- MINING APP SCRIPT ---
         const MiningApp = {
@@ -420,58 +600,155 @@
             timerEl: document.getElementById('timer'), miningButton: document.getElementById('mining-button'),
             pgBalanceTopEl: document.getElementById('pg-balance-top'), usdBalanceTopEl: document.getElementById('usd-balance-top'),
 
-            MINING_DURATION_MS: 6 * 60 * 60 * 1000, PG_TO_USD_RATE: 0.02,
-            PG_PER_HP_PER_DAY: 0.0126, SCORE_TO_PG_RATE: 1000,
+            PG_PER_DAY: 0.7,
+            MINING_SESSION_DURATION_MS: 6 * 60 * 60 * 1000,
+            ONE_DAY_MS: 24 * 60 * 60 * 1000,
+            PG_TO_USD_RATE: 0.02,
+            SCORE_TO_PG_RATE: 1000,
             
-            pgBalance: 0, usdtBalance: 0, gameTokens: 0, lastGameScore: 0,
-            currentPlanHP: 50, referralHP: 0, adsWatchedToday: 0, lastAdWatchDate: null,
+            userData: {},
             miningInterval: null, timerInterval: null,
 
-            init() {
-                this.miningButton.addEventListener('click', () => this.startMining());
+            init(userId) {
+                currentUserId = userId;
+                this.miningButton.addEventListener('click', () => this.handleStartMiningClick());
+                document.getElementById('watch-ad-button').addEventListener('click', () => this.handleWatchAd());
                 document.getElementById('back-to-mining-game').addEventListener('click', () => showView('mining-section'));
-                this.loadState();
+                this.loadAndListenForUserData(userId);
             },
-            loadState() {
-                this.pgBalance = parseFloat(localStorage.getItem('pgCoinBalance')) || 0;
-                this.usdtBalance = parseFloat(localStorage.getItem('usdtBalance')) || 0;
-                this.gameTokens = parseInt(localStorage.getItem('gameTokens')) || 0;
-                this.referralHP = parseInt(localStorage.getItem('referralHP')) || 0;
-                this.currentPlanHP = parseInt(localStorage.getItem('currentPlanHP')) || 50;
-                this.adsWatchedToday = parseInt(localStorage.getItem('adsWatchedToday')) || 0;
-                this.lastAdWatchDate = localStorage.getItem('lastAdWatchDate') || null;
+            
+            loadAndListenForUserData(userId) {
+                const { db, ref, onValue, set, update } = window.firebaseServices;
+                const userRef = ref(db, 'users/' + userId);
 
-                this.updateBalanceDisplay();
-                const miningEndTime = localStorage.getItem('pgCoinEndTime');
-                if (miningEndTime && new Date().getTime() < parseInt(miningEndTime)) this.startMining(true);
-                else this.stopMining(true);
+                onValue(userRef, (snapshot) => {
+                    const now = new Date().getTime();
+                    if (snapshot.exists()) {
+                        this.userData = snapshot.val();
+                        // Check for daily reset
+                        if (!this.userData.lastDailyReset || (now - this.userData.lastDailyReset > this.ONE_DAY_MS)) {
+                            console.log("Daily mining limit reset.");
+                            update(userRef, {
+                                pgMinedToday: 0,
+                                lastDailyReset: now
+                            }).then(() => {
+                               this.userData.pgMinedToday = 0;
+                               this.userData.lastDailyReset = now;
+                               this.checkMiningState();
+                            });
+                        } else {
+                           this.checkMiningState();
+                        }
+                    } else {
+                        // Create a new user entry
+                        const newUser = {
+                            pgBalance: 0, usdtBalance: 0,
+                            referralHP: 0, gameTokens: 0, lastGameScore: 0,
+                            adsWatchedToday: 0, lastAdWatchDate: null,
+                            miningSessionEndTime: null,
+                            pgMinedToday: 0, lastDailyReset: now,
+                            createdAt: new Date().toISOString()
+                        };
+                        set(userRef, newUser);
+                    }
+                    this.updateBalanceDisplay();
+                });
             },
-            startMining(isResuming = false) {
-                if (!isResuming) {
-                    const endTime = new Date().getTime() + this.MINING_DURATION_MS;
-                    localStorage.setItem('pgCoinEndTime', endTime);
+
+            checkMiningState() {
+                const now = new Date().getTime();
+                if (this.userData.miningSessionEndTime && now < this.userData.miningSessionEndTime) {
+                    this.resumeMining();
+                } else {
+                    this.stopMining(true);
                 }
+            },
+            
+            handleStartMiningClick() {
+                if (this.userData.pgMinedToday >= this.PG_PER_DAY) {
+                    alert("Daily mining limit reached. Come back tomorrow.");
+                    return;
+                }
+                
+                this.miningButton.disabled = true;
+                this.miningButton.textContent = "Loading Ad...";
+                
+                showRandomAd(
+                    () => { // On Ad Success
+                        this._beginActualMiningSession();
+                    },
+                    (error) => { // On Ad Error
+                        alert("You must watch an ad to start mining. Please try again.");
+                        console.error("Ad failed:", error);
+                        this.stopMining(false); // Reset button state
+                    }
+                );
+            },
+            
+            _beginActualMiningSession() {
+                const { db, ref, update } = window.firebaseServices;
+                const userRef = ref(db, 'users/' + currentUserId);
+                const endTime = new Date().getTime() + this.MINING_SESSION_DURATION_MS;
+                
+                update(userRef, { miningSessionEndTime: endTime }).then(() => {
+                    this.userData.miningSessionEndTime = endTime; // Update local state
+                    this.resumeMining();
+                });
+            },
+
+            resumeMining() {
                 this.statusEl.textContent = 'Active'; this.statusEl.className = 'mining';
                 this.miningButton.disabled = true; this.miningButton.textContent = 'Mining...';
-                const totalHP = this.currentPlanHP + this.referralHP;
-                const ratePerSecond = (totalHP * this.PG_PER_HP_PER_DAY) / 86400;
+
+                const ratePerSecond = this.PG_PER_DAY / 86400;
+
+                clearInterval(this.miningInterval);
                 this.miningInterval = setInterval(() => {
-                    this.pgBalance += ratePerSecond; this.updateBalanceDisplay();
-                    localStorage.setItem('pgCoinBalance', this.pgBalance);
+                    const { db, ref, update } = window.firebaseServices;
+                    const userRef = ref(db, 'users/' + currentUserId);
+                    
+                    if (this.userData.pgMinedToday >= this.PG_PER_DAY) {
+                       this.stopMining(true); // Stop if limit is reached during session
+                       return;
+                    }
+
+                    const newPgBalance = (this.userData.pgBalance || 0) + ratePerSecond;
+                    const newPgMinedToday = (this.userData.pgMinedToday || 0) + ratePerSecond;
+
+                    // Batch update to avoid race conditions
+                    update(userRef, { pgBalance: newPgBalance, pgMinedToday: newPgMinedToday });
                 }, 1000);
+                
+                clearInterval(this.timerInterval);
                 this.timerInterval = setInterval(() => this.updateTimer(), 1000);
                 this.updateTimer();
             },
-            stopMining(sessionExpired = false) {
-                clearInterval(this.miningInterval); clearInterval(this.timerInterval);
+            
+            stopMining(sessionExpired) {
+                clearInterval(this.miningInterval);
+                clearInterval(this.timerInterval);
+                
                 this.statusEl.textContent = sessionExpired ? 'Session Ended' : 'Stopped';
-                this.statusEl.className = 'stopped'; this.timerEl.textContent = 'Ready to start';
-                this.miningButton.disabled = false; this.miningButton.textContent = 'Start Mining';
-                if(sessionExpired) localStorage.removeItem('pgCoinEndTime');
+                this.statusEl.className = 'stopped';
+                this.timerEl.textContent = 'Ready to start';
+                this.miningButton.disabled = false;
+                
+                if ((this.userData.pgMinedToday || 0) >= this.PG_PER_DAY) {
+                    this.miningButton.textContent = 'Daily Limit Reached';
+                    this.miningButton.disabled = true;
+                } else {
+                    this.miningButton.textContent = 'Start Mining';
+                }
+                
+                if (sessionExpired && this.userData.miningSessionEndTime) {
+                    const { db, ref, update } = window.firebaseServices;
+                    update(ref(db, 'users/' + currentUserId), { miningSessionEndTime: null });
+                }
             },
+
             updateTimer() {
-                const endTime = parseInt(localStorage.getItem('pgCoinEndTime'));
-                if(!endTime) return;
+                const endTime = this.userData.miningSessionEndTime;
+                if (!endTime) return;
                 const remainingTime = endTime - new Date().getTime();
                 if (remainingTime <= 0) { this.stopMining(true); return; }
                 const h = Math.floor(remainingTime / 3600000);
@@ -479,98 +756,113 @@
                 const s = Math.floor((remainingTime % 60000) / 1000);
                 this.timerEl.textContent = `Time Left: ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
             },
+
             updateBalanceDisplay() {
-                this.balanceEl.textContent = `${this.pgBalance.toFixed(4)} PG`;
-                this.pgBalanceTopEl.textContent = this.pgBalance.toFixed(4);
-                this.usdBalanceTopEl.textContent = (this.usdtBalance + (this.pgBalance * this.PG_TO_USD_RATE)).toFixed(2);
+                const pgBal = this.userData.pgBalance || 0;
+                const usdtBal = this.userData.usdtBalance || 0;
+                this.balanceEl.textContent = `${pgBal.toFixed(4)} PG`;
+                this.pgBalanceTopEl.textContent = pgBal.toFixed(4);
+                this.usdBalanceTopEl.textContent = (usdtBal + (pgBal * this.PG_TO_USD_RATE)).toFixed(2);
             },
-            addGameUSDT(amount) {
-                this.usdtBalance += amount;
-                localStorage.setItem('usdtBalance', this.usdtBalance);
-                alert(`${amount.toFixed(6)} USDT has been added to your balance!`);
-                this.updateBalanceDisplay();
+            
+            updateUserData(data) {
+                const { db, ref, update } = window.firebaseServices;
+                update(ref(db, 'users/' + currentUserId), data);
+            },
+
+            handleWatchAd() {
+                const today = new Date().toISOString().slice(0, 10);
+                let adsWatched = this.userData.adsWatchedToday || 0;
+                if (this.userData.lastAdWatchDate !== today) { adsWatched = 0; }
+                if (adsWatched >= 15) { alert('Daily ad limit reached. Please come back tomorrow.'); return; }
+
+                showRandomAd(
+                    () => { // On Ad Success
+                        adsWatched++;
+                        const rand = Math.random();
+                        let rewardMsg = "You watched an ad and received ";
+                        let updates = { adsWatchedToday: adsWatched, lastAdWatchDate: today };
+
+                        if (rand < 0.05) { // 5% for Game Token
+                            updates.gameTokens = (this.userData.gameTokens || 0) + 1;
+                            rewardMsg += "1 Game Token (RARE)!";
+                        } else if (rand < 0.40) { // 35% for PG
+                            const pgAmount = Math.random() * (0.2 - 0.001) + 0.001;
+                            updates.pgBalance = (this.userData.pgBalance || 0) + pgAmount;
+                            rewardMsg += `${pgAmount.toFixed(4)} PG Coin!`;
+                        } else if (rand < 0.75) { // 35% for HP
+                            updates.referralHP = (this.userData.referralHP || 0) + 2.5;
+                            rewardMsg += `+${2.5} HP!`;
+                        } else { // 25% for USDT
+                            const usdtAmount = Math.random() * (0.002 - 0.0001) + 0.0001;
+                            updates.usdtBalance = (this.userData.usdtBalance || 0) + usdtAmount;
+                            rewardMsg += `${usdtAmount.toFixed(6)} USDT!`;
+                        }
+
+                        this.updateUserData(updates);
+                        alert(rewardMsg + `\nAds watched today: ${adsWatched}/15`);
+                    },
+                    (error) => { // On Ad Error
+                        alert("Failed to show ad. Please try again.");
+                        console.error("Reward ad failed:", error);
+                    }
+                );
             }
         };
 
-        function buyPlan(price) { alert(`You are trying to buy a plan for $${price}. This feature will be enabled soon!`); }
-        function handleInviteClick() {
-            MiningApp.gameTokens++; MiningApp.referralHP += 2;
-            localStorage.setItem('gameTokens', MiningApp.gameTokens);
-            localStorage.setItem('referralHP', MiningApp.referralHP);
-            alert('Referral simulation complete!\nYou received +1 Game Token and +2 HP for 30 days.');
-        }
         function handleConvertClick() {
-            if (MiningApp.lastGameScore > 0) {
-                const convertedPG = MiningApp.lastGameScore / MiningApp.SCORE_TO_PG_RATE;
-                MiningApp.pgBalance += convertedPG;
-                localStorage.setItem('pgCoinBalance', MiningApp.pgBalance);
-                alert(`You converted ${MiningApp.lastGameScore} score into ${convertedPG.toFixed(4)} PG!`);
-                MiningApp.lastGameScore = 0;
-                MiningApp.updateBalanceDisplay();
-            } else { alert('You have no game score to convert. Play a game first!'); }
+            const lastGameScore = MiningApp.userData.lastGameScore || 0;
+            if (lastGameScore >= 1000) {
+                const convertibleScore = Math.floor(lastGameScore / 1000) * 1000;
+                const convertedPG = convertibleScore / MiningApp.SCORE_TO_PG_RATE;
+                
+                const newPgBalance = (MiningApp.userData.pgBalance || 0) + convertedPG;
+                const newScore = lastGameScore - convertibleScore;
+                
+                MiningApp.updateUserData({ pgBalance: newPgBalance, lastGameScore: newScore });
+                alert(`You converted ${convertibleScore} score into ${convertedPG.toFixed(4)} PG!`);
+            } else { alert('You need at least 1000 score to convert.'); }
         }
         function handleWithdraw(type, method) {
             const min = type === 'pg' ? 25 : 1;
             const amount = parseFloat(document.getElementById(`${type}-withdraw-amount`).value);
             const address = document.getElementById(`${type}-withdraw-address`).value;
-            const balance = type === 'pg' ? MiningApp.pgBalance : MiningApp.usdtBalance;
+            const balance = type === 'pg' ? MiningApp.userData.pgBalance : MiningApp.userData.usdtBalance;
 
             if (!amount || isNaN(amount) || !address) { alert('Please fill in both amount and address.'); return; }
             if (amount < min) { alert(`Minimum withdrawal for ${type.toUpperCase()} is ${min}.`); return; }
             if (amount > balance) { alert('Insufficient balance.'); return; }
             
-            // Simulation: In a real app, you would deduct the balance here after server confirmation.
-            alert(`Withdrawal request for ${amount} ${type.toUpperCase()} to ${address} via ${method} has been submitted for review.`);
+            alert(`Withdrawal request for ${amount} ${type.toUpperCase()} to ${address} via ${method} submitted. This requires backend processing.`);
         }
-        function handleWatchAd() {
-            const today = new Date().toISOString().slice(0, 10);
-            if (MiningApp.lastAdWatchDate !== today) {
-                MiningApp.adsWatchedToday = 0;
-                MiningApp.lastAdWatchDate = today;
-            }
-            if (MiningApp.adsWatchedToday >= 15) { alert('Daily ad limit reached. Please come back tomorrow.'); return; }
+        
+        function handleCreateTask() {
+            const selectedPackage = document.querySelector('input[name="task_package"]:checked');
+            if (!selectedPackage) { alert("Please select a task package."); return; }
             
-            MiningApp.adsWatchedToday++;
-            localStorage.setItem('adsWatchedToday', MiningApp.adsWatchedToday);
-            localStorage.setItem('lastAdWatchDate', MiningApp.lastAdWatchDate);
-
-            const rand = Math.random();
-            let rewardMsg = "You watched an ad and received ";
-            if (rand < 0.05) { // 5% chance for game token
-                MiningApp.gameTokens++; localStorage.setItem('gameTokens', MiningApp.gameTokens);
-                rewardMsg += "1 Game Token (RARE)!";
-            } else if (rand < 0.40) { // 35% chance for PG coin
-                const pgAmount = Math.random() * (0.2 - 0.001) + 0.001;
-                MiningApp.pgBalance += pgAmount; localStorage.setItem('pgCoinBalance', MiningApp.pgBalance);
-                rewardMsg += `${pgAmount.toFixed(4)} PG Coin!`;
-            } else if (rand < 0.75) { // 35% chance for Hash Power
-                MiningApp.referralHP += 2; localStorage.setItem('referralHP', MiningApp.referralHP);
-                rewardMsg += "+2 HP!";
-            } else { // 25% chance for USDT
-                const usdtAmount = Math.random() * (0.002 - 0.0001) + 0.0001;
-                MiningApp.usdtBalance += usdtAmount; localStorage.setItem('usdtBalance', MiningApp.usdtBalance);
-                rewardMsg += `${usdtAmount.toFixed(6)} USDT!`;
+            const price = parseFloat(selectedPackage.value);
+            if (MiningApp.userData.usdtBalance >= price) {
+                const newBalance = MiningApp.userData.usdtBalance - price;
+                MiningApp.updateUserData({ usdtBalance: newBalance });
+                alert(`Task created successfully for $${price}! It is now under review.`);
+                showView('mining-section');
+            } else {
+                alert("Insufficient USDT balance. Please deposit or earn more.");
             }
-            alert(rewardMsg + `\nAds watched today: ${MiningApp.adsWatchedToday}/15`);
-            MiningApp.updateBalanceDisplay();
         }
 
-        // --- SNOW CATCHER GAME SCRIPT ---
+        // --- SNOW CATCHER GAME SCRIPT (Unchanged) ---
         const SnowCatcherGame = {
-            isInitialized: false, gameContainer: null, scoreSpan: null, missedSpan: null, usdtScoreSpan: null,
-            timerSpan: null, gameOverDiv: null, gameOverTitle: null, finalScoreSpan: null,
-            finalUsdtScoreSpan: null, restartButton: null,
-            score: 0, missed: 0, usdtScore: 0.0, timeRemaining: 60, baseSpeed: 1.0,
-            gameLoopInterval: null, objectCreationInterval: null, countdownInterval: null,
-            gameTimer: null, isGameOver: true,
+            isInitialized: false, score: 0, missed: 0, usdtScore: 0.0, timeRemaining: 60, baseSpeed: 1.0, isGameOver: true,
             init() {
                 if(this.isInitialized) return;
-                this.gameContainer = document.querySelector('#game-section #game-container');
-                this.scoreSpan = document.querySelector('#game-section #score'); this.missedSpan = document.querySelector('#game-section #missed');
-                this.usdtScoreSpan = document.querySelector('#game-section #usdt-score'); this.timerSpan = document.querySelector('#game-section #timer-value');
-                this.gameOverDiv = document.querySelector('#game-section #game-over'); this.gameOverTitle = document.querySelector('#game-section #game-over-title');
-                this.finalScoreSpan = document.querySelector('#game-section #final-score'); this.finalUsdtScoreSpan = document.querySelector('#game-section #final-usdt-score');
-                this.restartButton = document.querySelector('#game-section #restart-button');
+                Object.assign(this, {
+                    gameContainer: document.querySelector('#game-section #game-container'), scoreSpan: document.querySelector('#game-section #score'),
+                    missedSpan: document.querySelector('#game-section #missed'), usdtScoreSpan: document.querySelector('#game-section #usdt-score'),
+                    timerSpan: document.querySelector('#game-section #timer-value'), gameOverDiv: document.querySelector('#game-section #game-over'),
+                    gameOverTitle: document.querySelector('#game-section #game-over-title'), finalScoreSpan: document.querySelector('#game-section #final-score'),
+                    finalUsdtScoreSpan: document.querySelector('#game-section #final-usdt-score'), restartButton: document.querySelector('#game-section #restart-button')
+                });
                 this.gameContainer.addEventListener('pointerdown', (e) => { if (e.target.matches('.falling-object')) this.handleObjectClick(e.target); });
                 this.restartButton.addEventListener('click', () => this.startGame()); this.isInitialized = true;
             },
@@ -615,13 +907,22 @@
             endGame(reason) {
                 if (this.isGameOver) return; this.isGameOver = true; this.clearAllIntervals();
                 if (reason === 'view-switch') return;
-                MiningApp.lastGameScore = this.score; if(this.usdtScore > 0) MiningApp.addGameUSDT(this.usdtScore);
+
                 if (reason === 'bomb') {
                     this.gameOverTitle.textContent = "You hit a bomb!"; this.gameOverTitle.style.color = "var(--red-glow)";
                     this.finalScoreSpan.textContent = "0 (Void)"; this.finalUsdtScoreSpan.textContent = "0.000000 (Void)";
-                } else {
+                } else { // Time's up
                     this.gameOverTitle.textContent = "Time's Up!"; this.gameOverTitle.style.color = "var(--primary-color)";
                     this.finalScoreSpan.textContent = this.score; this.finalUsdtScoreSpan.textContent = this.usdtScore.toFixed(6);
+                    
+                    const newLastGameScore = (MiningApp.userData.lastGameScore || 0) + this.score;
+                    const newUsdtBalance = (MiningApp.userData.usdtBalance || 0) + this.usdtScore;
+                    let updates = { lastGameScore: newLastGameScore };
+                    if (this.usdtScore > 0) {
+                        updates.usdtBalance = newUsdtBalance;
+                        alert(`${this.usdtScore.toFixed(6)} USDT has been added to your balance!`);
+                    }
+                    MiningApp.updateUserData(updates);
                 }
                 this.gameOverDiv.style.display = 'block'; this.gameContainer.style.cursor = 'default';
             }
@@ -629,8 +930,26 @@
 
         // --- App Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-            MiningApp.init();
-            showView('mining-section');
+            if (window.firebaseServices) {
+                const tg = window.Telegram.WebApp;
+                tg.ready();
+                tg.expand();
+
+                let userId;
+                if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
+                    userId = "tg_user_" + tg.initDataUnsafe.user.id;
+                    console.log("Telegram user identified:", userId);
+                } else {
+                    userId = "web_user_test_abc_123"; // Fallback for testing in browser
+                    console.warn("Telegram user not found. Using fallback ID:", userId);
+                }
+                
+                MiningApp.init(userId);
+                showView('mining-section');
+            } else {
+                console.error("Firebase services not available.");
+                alert("Error: Could not connect to the database. Please refresh.");
+            }
         });
     </script>
 </body>
