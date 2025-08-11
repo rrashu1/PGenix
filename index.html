@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>PG Coin Mining & Games</title>
+    <title>PGenix Coin Mining & Games</title>
     <style>
         /* --- Global Styles & Fonts --- */
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap');
@@ -26,15 +26,41 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            background-color: var(--background-color);
         }
 
         body {
             font-family: 'Hind Siliguri', sans-serif;
-            background-color: var(--background-color);
             color: var(--text-color);
             display: flex;
             justify-content: center;
             touch-action: none;
+        }
+
+        /* UPDATE: Error overlay for non-Telegram access */
+        #error-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: none; /* Initially hidden */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #error-box {
+            background-color: #2a2a2a;
+            color: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid #444;
+        }
+        #error-box h2 {
+            margin: 0 0 10px 0;
+            color: var(--red-glow);
         }
 
         #app-wrapper {
@@ -42,7 +68,7 @@
             height: 100%;
             max-width: 420px;
             position: relative;
-            display: flex;
+            display: none; /* Initially hidden, shown by script */
             flex-direction: column;
             background: var(--background-color);
         }
@@ -158,7 +184,7 @@
         #inbox-notification {
             position: absolute; top: -5px; right: -5px; background-color: var(--red-glow);
             color: white; border-radius: 50%; width: 20px; height: 20px;
-            font-size: 12px; font-weight: bold; display: none; /* Changed */
+            font-size: 12px; font-weight: bold; display: none;
             align-items: center; justify-content: center; border: 1px solid white;
         }
 
@@ -293,11 +319,10 @@
         .withdraw-btn.binance { background-color: #f0b90b; color: #1e2329; }
 
         /* --- Game Section --- */
-        /* FIX: Removed display properties from the ID selector to prevent override */
         #game-section { 
             background-color: #333; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            justify-content: center; /* This can stay as it only applies when display is flex */
+            justify-content: center;
         }
         #game-section #back-to-mining-game { position: absolute; top: 15px; right: 15px; z-index: 20; background: var(--yellow-color); color: #333; border: none; padding: 8px 15px; border-radius: 10px; font-family: 'Hind Siliguri', sans-serif; cursor: pointer; font-weight: bold; }
         #game-section h1 { color: var(--primary-color); text-shadow: 2px 2px 4px #000; margin-bottom: 20px; }
@@ -333,8 +358,17 @@
     <!-- Ad SDKs -->
     <script src="https://ad.gigapub.tech/script?id=1470"></script>
     <script src='//libtl.com/sdk.js' data-zone='9689843' data-sdk='show_9689843'></script>
+    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
 </head>
 <body>
+    <!-- UPDATE: Error overlay added -->
+    <div id="error-overlay">
+        <div id="error-box">
+            <h2>Error</h2>
+            <p>This app can only be launched from Telegram.</p>
+        </div>
+    </div>
+
     <div id="app-wrapper">
         <div class="view-container">
             <!-- Mining App View -->
@@ -379,7 +413,7 @@
                 </div>
             </div>
             
-            <!-- Profile View -->
+            <!-- Other Views ... -->
             <div id="profile-section" class="view">
                  <div class="page-container">
                     <div class="page-header">
@@ -399,7 +433,6 @@
                 </div>
             </div>
 
-            <!-- Inbox View -->
             <div id="inbox-section" class="view">
                 <div class="page-container">
                     <div class="page-header">
@@ -412,7 +445,6 @@
                 </div>
             </div>
             
-            <!-- Other Views -->
             <div id="tasks-section" class="view">
                 <div class="page-container">
                     <div class="page-header">
@@ -521,6 +553,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div class="nav-bar">
@@ -594,13 +627,13 @@
             
             document.querySelectorAll('.nav-bar button').forEach(button => button.classList.remove('active'));
             const navMap = {
-                'profile-section': 'mining-section', // Profile is not a nav button, defaults to home
-                'inbox-section': 'mining-section', // Inbox is not a nav button, defaults to home
+                'profile-section': 'mining-section',
+                'inbox-section': 'mining-section',
                 'tasks-section': 'tasks-section',
                 'create-task-section': 'create-task-section',
                 'withdrawal-section': 'withdrawal-section',
                 'game-section': 'game-section',
-                'invite-section': 'mining-section', // Invite is part of home
+                'invite-section': 'mining-section',
                 'mining-section': 'mining-section'
             };
 
@@ -608,7 +641,6 @@
             const activeBtn = document.querySelector(navButtonSelector);
             if(activeBtn) activeBtn.classList.add('active');
             
-            // Populate view-specific data when shown
             if (viewId === 'withdrawal-section') {
                 document.getElementById('withdraw-pg-balance').textContent = MiningApp.getAvailableBalance('pg').toFixed(4);
                 document.getElementById('withdraw-usdt-balance').textContent = MiningApp.getAvailableBalance('usdt').toFixed(6);
@@ -618,7 +650,6 @@
             }
             if(viewId === 'invite-section'){
                 if (currentUserId) {
-                    // Updated referral link
                     document.getElementById('referral-link').value = `http://t.me/PGenix_Bot/PGenix?start=${currentUserId}`;
                 }
             }
@@ -638,10 +669,9 @@
             }
         }
         
-        // Shows a random ad from available providers
         function showRandomAd(onSuccess, onError) {
             const adProviders = [
-                { // GigaPub
+                {
                     name: "GigaPub",
                     show: () => {
                         if (typeof window.showGiga === 'function') {
@@ -652,7 +682,7 @@
                         }
                     }
                 },
-                { // Monetag
+                {
                     name: "Monetag",
                     show: () => {
                         if (typeof window.show_9689843 === 'function') {
@@ -702,7 +732,7 @@
             pgBalanceTopEl: document.getElementById('pg-balance-top'), usdBalanceTopEl: document.getElementById('usd-balance-top'),
             
             BASE_PG_PER_DAY: 0.7,
-            HP_TO_PG_DAY_RATE: 0.1, // 1 HP = +0.1 PG/day
+            HP_TO_PG_DAY_RATE: 0.1, 
             MINING_SESSION_DURATION_MS: 6 * 60 * 60 * 1000,
             ONE_DAY_MS: 24 * 60 * 60 * 1000,
             PG_TO_USD_RATE: 0.02,
@@ -729,7 +759,6 @@
                         this.userData = snapshot.val();
                         let updates = {};
 
-                        // Check for daily reset
                         if (!this.userData.lastDailyReset || (now - this.userData.lastDailyReset > this.ONE_DAY_MS)) {
                             console.log("Daily mining limit and ads reset.");
                             updates.pgMinedToday = 0;
@@ -737,7 +766,6 @@
                             updates.lastDailyReset = now;
                         }
                         
-                        // Cleanup expired HP boosts
                         const activeBoosts = (this.userData.hpBoosts || []).filter(boost => boost.expiresAt > now);
                         if (activeBoosts.length !== (this.userData.hpBoosts || []).length) {
                              updates.hpBoosts = activeBoosts;
@@ -746,7 +774,7 @@
 
                         if(Object.keys(updates).length > 0) {
                             update(userRef, updates).then(() => {
-                               Object.assign(this.userData, updates); // Sync local state
+                               Object.assign(this.userData, updates);
                                this.checkMiningState();
                             });
                         } else {
@@ -754,11 +782,10 @@
                         }
                         
                     } else {
-                        // Create a new user entry
                         console.log("Creating new user profile.");
                         const newUser = {
                             pgBalance: 0, usdtBalance: 0,
-                            gameTokens: 5, // 5 free tokens for new users
+                            gameTokens: 5, // Correct logic for new users
                             hpBoosts: [],
                             pendingWithdrawals: { pg: 0, usdt: 0 },
                             adsWatchedToday: 0, lastAdWatchDate: null,
@@ -779,9 +806,6 @@
             },
 
             awardReferrer(referrerId) {
-                // SECURITY NOTE: This is client-side and can be exploited.
-                // For a real application, this logic MUST be moved to a secure backend
-                // (like a Firebase Cloud Function) that triggers on new user creation.
                 console.log(`Awarding referral bonus to ${referrerId}`);
                 const { db, ref, get, update } = window.firebaseServices;
                 const referrerRef = ref(db, `users/${referrerId}`);
@@ -793,8 +817,8 @@
                         updates.gameTokens = (referrerData.gameTokens || 0) + 1;
                         
                         const newBoost = {
-                            amount: 2.5, // 2.5 HP
-                            expiresAt: Date.now() + 30 * this.ONE_DAY_MS // 30-day validity
+                            amount: 2.5,
+                            expiresAt: Date.now() + 30 * this.ONE_DAY_MS
                         };
                         const existingBoosts = referrerData.hpBoosts || [];
                         updates.hpBoosts = [...existingBoosts, newBoost];
@@ -833,8 +857,8 @@
                 this.miningButton.disabled = true; this.miningButton.textContent = "Loading Ad...";
                 
                 showRandomAd(
-                    () => this._beginActualMiningSession(), // On Ad Success
-                    (error) => { // On Ad Error
+                    () => this._beginActualMiningSession(),
+                    (error) => {
                         alert("You must watch an ad to start mining. Please try again.");
                         this.stopMining(false);
                     }
@@ -853,7 +877,7 @@
                 this.miningButton.disabled = true; this.miningButton.textContent = 'Mining...';
 
                 const totalRatePerDay = this.calculateTotalMiningRate();
-                const ratePerSecond = totalRatePerDay / 86400; // 86400 seconds in a day
+                const ratePerSecond = totalRatePerDay / 86400;
 
                 clearInterval(this.miningInterval);
                 this.miningInterval = setInterval(() => {
@@ -866,7 +890,7 @@
                         pgMinedToday: (this.userData.pgMinedToday || 0) + ratePerSecond,
                         lifetimePGEarned: (this.userData.lifetimePGEarned || 0) + ratePerSecond
                     };
-                    this.updateUserData(updates, false); // No need to update display every second
+                    this.updateUserData(updates, false);
                 }, 1000);
                 
                 clearInterval(this.timerInterval);
@@ -913,7 +937,6 @@
                 this.pgBalanceTopEl.textContent = pgBal.toFixed(4);
                 this.usdBalanceTopEl.textContent = (usdtBal + (pgBal * this.PG_TO_USD_RATE)).toFixed(2);
                 
-                // Update inbox notification
                 const unreadMessages = (this.userData.messages || []).filter(m => !m.read).length;
                 const notifEl = document.getElementById('inbox-notification');
                 if (unreadMessages > 0) {
@@ -925,6 +948,7 @@
             },
             
             updateUserData(data, shouldUpdateDisplay = true) {
+                if (!currentUserId) return;
                 const { db, ref, update } = window.firebaseServices;
                 update(ref(db, 'users/' + currentUserId), data);
                 if(shouldUpdateDisplay) this.updateDisplay();
@@ -938,7 +962,7 @@
             
             renderInbox() {
                 const inboxList = document.getElementById('inbox-list');
-                const messages = (this.userData.messages || []).slice().reverse(); // Show newest first
+                const messages = (this.userData.messages || []).slice().reverse();
                 if (messages.length === 0) {
                     inboxList.innerHTML = `<li class="inbox-placeholder">No new messages.</li>`;
                     return;
@@ -950,7 +974,7 @@
                         <span class="timestamp">${new Date(msg.timestamp).toLocaleString()}</span>
                     </li>
                 `).join('');
-                // Mark messages as read
+                
                 const unreadMessageKeys = [];
                 (this.userData.messages || []).forEach((msg, index) => {
                     if (!msg.read) unreadMessageKeys.push(index);
@@ -964,34 +988,33 @@
                     this.updateUserData(updates);
                 }
             },
-
+            
             handleWatchAd() {
                 const today = new Date().toISOString().slice(0, 10);
                 let adsWatched = this.userData.adsWatchedToday || 0;
-                // This check is slightly redundant because of the daily reset logic, but good as a failsafe
                 if (this.userData.lastAdWatchDate !== today) { adsWatched = 0; }
                 if (adsWatched >= 15) { alert('Daily ad limit reached (15/15). Please come back tomorrow.'); return; }
 
                 showRandomAd(
-                    () => { // On Ad Success
+                    () => {
                         adsWatched++;
                         const rand = Math.random();
                         let rewardMsg = "";
                         let updates = { adsWatchedToday: adsWatched, lastAdWatchDate: today };
 
-                        if (rand < 0.05) { // 5% for Game Token
+                        if (rand < 0.05) {
                             updates.gameTokens = (this.userData.gameTokens || 0) + 1;
                             rewardMsg = "RARE! You received 1 Game Token!";
-                        } else if (rand < 0.35) { // 30% for HP
+                        } else if (rand < 0.35) {
                              const newBoost = { amount: 1.5, expiresAt: Date.now() + this.ONE_DAY_MS };
                              updates.hpBoosts = [...(this.userData.hpBoosts || []), newBoost];
                              rewardMsg = "You received a 1.5 HP mining boost for 24 hours!";
-                        } else if (rand < 0.65) { // 30% for PG Coin
+                        } else if (rand < 0.65) {
                             const pgAmount = 0.001;
                             updates.pgBalance = (this.userData.pgBalance || 0) + pgAmount;
                             updates.lifetimePGEarned = (this.userData.lifetimePGEarned || 0) + pgAmount;
                             rewardMsg = `You received ${pgAmount.toFixed(4)} PG Coin!`;
-                        } else { // 35% for USDT
+                        } else {
                             const usdtAmount = Math.random() * (0.002 - 0.0001) + 0.0001;
                             updates.usdtBalance = (this.userData.usdtBalance || 0) + usdtAmount;
                             updates.lifetimeUsdtEarned = (this.userData.lifetimeUsdtEarned || 0) + usdtAmount;
@@ -1001,7 +1024,7 @@
                         this.updateUserData(updates);
                         alert(rewardMsg + `\n\nAds watched today: ${adsWatched}/15`);
                     },
-                    (error) => { // On Ad Error
+                    (error) => {
                         alert("Failed to show ad. Please try again.");
                     }
                 );
@@ -1037,13 +1060,7 @@
             if (amount > availableBalance) { alert('Insufficient available balance. You may have other pending withdrawals.'); return; }
             
             const requestData = {
-                userId: currentUserId,
-                amount: amount,
-                currency: type.toUpperCase(),
-                address: address,
-                method: method,
-                status: 'pending',
-                createdAt: serverTimestamp()
+                userId: currentUserId, amount, currency: type.toUpperCase(), address, method, status: 'pending', createdAt: serverTimestamp()
             };
 
             const requestsRef = ref(db, 'withdrawal_requests');
@@ -1078,10 +1095,7 @@
 
             if (availableUSDT >= price) {
                 const requestData = {
-                    userId: currentUserId,
-                    packageValue: price,
-                    status: 'pending_review',
-                    createdAt: serverTimestamp()
+                    userId: currentUserId, packageValue: price, status: 'pending_review', createdAt: serverTimestamp()
                 };
                 
                 const userRef = ref(db, `users/${currentUserId}`);
@@ -1190,7 +1204,7 @@
                 let gameOverHTML = '';
                 if (reason === 'bomb') {
                     gameOverHTML = `<h2 style="color:var(--red-glow)">You hit a bomb!</h2><p>Your scores for this round are void.</p>`;
-                } else { // Time's up
+                } else {
                     gameOverHTML = `
                         <h2 style="color:var(--primary-color)">Time's Up!</h2>
                         <p>Final Score: <span>${this.score}</span></p>
@@ -1217,29 +1231,43 @@
 
         // --- App Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-            if (window.firebaseServices) {
-                const tg = window.Telegram.WebApp;
-                tg.ready();
-                tg.expand();
-
-                let userId, referrerId = null;
-                if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
-                    userId = "tg_user_" + tg.initDataUnsafe.user.id;
-                    const startParam = tg.initDataUnsafe.start_param;
-                    if(startParam) {
-                        referrerId = startParam;
-                    }
-                    console.log(`Telegram user: ${userId}, Referrer: ${referrerId || 'None'}`);
-                } else {
-                    userId = "web_user_test_abc_123"; // Fallback for testing
-                    console.warn("Telegram user not found. Using fallback ID:", userId);
+            try {
+                if (typeof AdexiumWidget !== 'undefined') {
+                    const adexiumWidget = new AdexiumWidget({wid: '591a49b2-631d-4270-ad75-bf7afd247d5f', adFormat: 'interstitial'});
+                    adexiumWidget.autoMode();
                 }
+            } catch (e) {
+                console.error("Adexium widget failed to initialize:", e);
+            }
+
+            // UPDATE: Strict check for Telegram environment
+            const tg = window.Telegram.WebApp;
+            
+            // If initData is empty, it means the app is not running inside Telegram.
+            if (!tg.initDataUnsafe || !tg.initDataUnsafe.user || !tg.initDataUnsafe.user.id) {
+                document.getElementById('app-wrapper').style.display = 'none';
+                document.getElementById('error-overlay').style.display = 'flex';
+                console.error("This app can only be launched from Telegram.");
+                return; // Stop further execution
+            }
+
+            // If we are here, it means we are inside Telegram. Proceed with initialization.
+            document.getElementById('app-wrapper').style.display = 'flex';
+            tg.ready();
+            tg.expand();
+
+            if (window.firebaseServices) {
+                let userId = "tg_user_" + tg.initDataUnsafe.user.id;
+                let referrerId = tg.initDataUnsafe.start_param || null;
+                console.log(`Telegram user: ${userId}, Referrer: ${referrerId || 'None'}`);
                 
                 MiningApp.init(userId, referrerId);
                 showView('mining-section');
             } else {
                 console.error("Firebase services not available.");
-                alert("Error: Could not connect to the database. Please refresh.");
+                document.getElementById('app-wrapper').style.display = 'none';
+                document.getElementById('error-overlay').innerHTML = '<div id="error-box"><h2>Connection Error</h2><p>Could not connect to the database. Please try again later.</p></div>';
+                document.getElementById('error-overlay').style.display = 'flex';
             }
         });
     </script>
