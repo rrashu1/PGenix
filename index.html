@@ -68,7 +68,6 @@
             justify-content: flex-start;
             align-items: center;
             box-sizing: border-box;
-            padding: 25px;
         }
         .view.active { display: flex; }
         
@@ -78,9 +77,15 @@
         }
 
         /* --- Common Page Styles --- */
+        .page-container {
+            width: 100%;
+            padding: 25px;
+            text-align: center;
+            box-sizing: border-box;
+        }
         .page-header {
             display: flex; align-items: center; justify-content: center;
-            position: relative; margin-bottom: 20px; width: 100%;
+            position: relative; margin-bottom: 20px;
         }
         .back-button {
             position: absolute; left: 0; background: var(--surface-color);
@@ -95,12 +100,9 @@
         }
 
         /* --- Mining App Styles --- */
-         #mining-section {
-             padding: 0; 
-        }
         #mining-section .container {
             width: 100%;
-            height: 100%;
+            min-height: 100%;
             background: linear-gradient(145deg, var(--surface-color), #211f42);
             padding: 25px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
@@ -115,27 +117,52 @@
             margin-bottom: 15px; display: flex; justify-content: space-between;
             align-items: center; border: 1px solid var(--secondary-color);
         }
-        #top-balance-bar div { font-size: 1.1em; font-weight: 600; }
+        #top-balance-bar > div { font-size: 1.1em; font-weight: 600; flex-grow: 1; }
+        #top-balance-bar #pg-balance-top-container { text-align: left; }
+        #top-balance-bar #usd-balance-top-container { text-align: right; }
         #top-balance-bar #pg-balance-top { color: var(--primary-color); }
         #top-balance-bar #usd-balance-top { color: var(--green-glow); }
-        .header-icons { display: flex; align-items: center; gap: 15px; }
-        .header-icon-btn { background: none; border: none; color: var(--text-color); cursor: pointer; position: relative; }
-        .header-icon-btn svg { width: 28px; height: 28px; }
-        .unread-dot {
-            position: absolute; top: 0; right: 0; width: 10px; height: 10px;
-            background-color: var(--red-glow); border-radius: 50%; border: 1px solid white;
-            display: none;
-        }
 
+        #profile-button {
+            cursor: pointer; background: var(--surface-color); border-radius: 50%;
+            width: 38px; height: 38px; display: flex; align-items: center;
+            justify-content: center; border: 1px solid var(--secondary-color);
+            margin: 0 10px; flex-shrink: 0;
+        }
+        #profile-button svg { width: 24px; height: 24px; color: var(--primary-color); }
 
         #mining-section h1 { color: var(--primary-color); margin-bottom: 10px; font-size: 2.2em; text-shadow: 0 0 10px var(--glow-color); }
         .mining-display {
             background-color: rgba(0,0,0,0.2); padding: 20px; border-radius: 20px;
             margin-bottom: 15px; border: 1px solid var(--secondary-color);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.3);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.3); position: relative;
         }
+        .mining-display h2 { margin: 0 0 10px 0; color: var(--text-color); font-weight: 400; font-size: 1.3em; }
         #balance { font-size: 2.5em; font-weight: 700; color: var(--primary-color); text-shadow: 0 0 8px var(--glow-color); word-wrap: break-word; margin-bottom: 15px; }
         
+        .action-boxes { display: flex; gap: 15px; margin-bottom: 15px; }
+        .action-box {
+            flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--secondary-color);
+            border-radius: 15px; padding: 15px 10px; cursor: pointer; transition: background-color 0.2s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .action-box:hover { background-color: rgba(0, 229, 255, 0.1); }
+        .action-box svg { width: 32px; height: 32px; margin-bottom: 5px; color: var(--primary-color); }
+        .action-box span { font-size: 1em; font-weight: 600; color: var(--text-color); }
+        
+        #inbox-icon {
+            position: absolute; bottom: 125px; right: 25px; font-size: 32px;
+            cursor: pointer; transition: transform 0.2s; z-index: 10;
+        }
+        #inbox-icon:hover { transform: scale(1.1); }
+        #inbox-notification {
+            position: absolute; top: -5px; right: -5px; background-color: var(--red-glow);
+            color: white; border-radius: 50%; width: 20px; height: 20px;
+            font-size: 12px; font-weight: bold; display: none; /* Changed */
+            align-items: center; justify-content: center; border: 1px solid white;
+        }
+
+
         #status-container { font-size: 1.2em; margin-bottom: 10px; }
         #status.mining { color: var(--green-glow); font-weight: 600; animation: glow-green 1.5s infinite alternate; }
         #status.stopped { color: var(--red-glow); font-weight: 600; }
@@ -166,9 +193,8 @@
         #watch-ad-button svg { width: 20px; height: 20px; }
         
         .nav-bar {
-            width: 100%; max-width: 420px;
-            display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.5);
-            padding: 10px 5px; border-top: 1px solid var(--secondary-color);
+            width: 100%; max-width: 420px; display: flex; justify-content: space-around; align-items: center;
+            background: rgba(0,0,0,0.5); padding: 10px 5px; border-top: 1px solid var(--secondary-color);
             backdrop-filter: blur(5px); box-sizing: border-box; flex-shrink: 0;
         }
         .nav-bar button {
@@ -178,63 +204,77 @@
         }
         .nav-bar button:hover, .nav-bar button.active { color: var(--primary-color); }
         .nav-bar svg { width: 28px; height: 28px; }
+
+        /* --- Profile Section --- */
+        #profile-section .profile-stats {
+            background: var(--surface-color); padding: 25px; border-radius: 15px;
+            border: 1px solid var(--secondary-color); display: flex;
+            flex-direction: column; gap: 15px; text-align: left;
+        }
+        .profile-stat {
+            background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+        .profile-stat h3 { margin: 0 0 5px 0; color: #ccc; font-weight: 400; }
+        .profile-stat p { margin: 0; font-size: 1.5em; font-weight: 600; color: var(--primary-color); }
         
+        /* --- Inbox Section --- */
+        #inbox-list { list-style: none; padding: 0; width: 100%; }
+        #inbox-list li {
+            background: var(--surface-color); border-radius: 10px; padding: 15px;
+            margin-bottom: 10px; border-left: 4px solid var(--secondary-color); text-align: left;
+        }
+        #inbox-list .inbox-placeholder { border: none; text-align: center; color: #888; background: transparent; }
+        #inbox-list h4 { margin: 0 0 8px 0; color: var(--primary-color); }
+        #inbox-list p { margin: 0; color: #ddd; }
+        #inbox-list .timestamp { font-size: 0.8em; color: #999; text-align: right; margin-top: 10px; display: block; }
+        
+        /* --- Create Task & Deposit Section --- */
+        #create-task-section .balance-info {
+            font-size: 1.2em; margin-bottom: 20px;
+            background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px;
+        }
+        #create-task-section .balance-info strong { color: var(--green-glow); }
+        #create-task-section .task-package-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; margin-bottom: 20px; }
+        .task-package-card {
+            background: linear-gradient(145deg, var(--surface-color), #211f42);
+            border: 2px solid var(--secondary-color); border-radius: 15px; padding: 15px;
+            text-align: left; cursor: pointer; position: relative;
+        }
+        .task-package-card:has(input:checked) { border-color: var(--primary-color); box-shadow: 0 0 15px var(--glow-color); }
+        .task-package-card input[type="radio"] { position: absolute; opacity: 0; }
+        .task-package-card h3 { color: var(--primary-color); margin: 0 0 10px 0; }
+        .task-package-card p { margin: 0; color: var(--text-color); font-size: 1.1em; }
+        .task-package-card p strong { color: var(--yellow-color); }
+        
+        #create-task-btn, #deposit-usdt-btn {
+            width: 100%; padding: 15px; font-size: 1.3em; font-weight: 700;
+            color: var(--background-color); border: none; border-radius: 10px; cursor: pointer;
+            margin-top: 10px;
+        }
+        #create-task-btn { background: linear-gradient(45deg, var(--green-glow), var(--primary-color)); }
+        #deposit-usdt-btn { background: linear-gradient(45deg, var(--yellow-color), var(--orange-color)); }
+
         /* --- Invite Section --- */
-        #invite-section .invite-box { background: var(--surface-color); padding: 25px; border-radius: 15px; border: 1px solid var(--secondary-color); width:100%; }
+        #invite-section .invite-box { background: var(--surface-color); padding: 25px; border-radius: 15px; border: 1px solid var(--secondary-color); }
         #invite-section h3 { margin-top: 0; color: var(--primary-color); }
         #invite-section p { color: #ccc; }
         #invite-section .referral-link-container { display: flex; margin-top: 20px; }
         #invite-section #referral-link { flex-grow: 1; background: var(--background-color); border: 1px solid var(--secondary-color); border-radius: 8px 0 0 8px; padding: 12px; color: white; }
         #invite-section #copy-ref-btn { background: var(--primary-color); color: var(--background-color); border: none; padding: 0 15px; border-radius: 0 8px 8px 0; font-weight: bold; cursor: pointer; }
 
-        /* --- Profile Section --- */
-        #profile-section .profile-card {
-            background: var(--surface-color); border-radius: 15px; padding: 20px; width: 100%;
-            border: 1px solid var(--secondary-color); text-align: left;
-        }
-        #profile-section h3 { color: var(--primary-color); }
-        #profile-section .stat-row { display: flex; justify-content: space-between; margin: 10px 0; font-size: 1.1em; }
-        #profile-section .stat-label { color: #ccc; }
-        #profile-section .stat-value { font-weight: bold; color: var(--primary-color); }
+        /* --- Deposit Modal --- */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+        .modal-content { background: var(--surface-color); padding: 25px; border-radius: 15px; border: 1px solid var(--primary-color); text-align: center; width: 90%; max-width: 380px; box-shadow: 0 0 25px var(--glow-color); position: relative; }
+        .close-modal-btn { position: absolute; top: 10px; right: 15px; color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        #deposit-qr-code { background: white; padding: 10px; border-radius: 8px; margin: 15px auto; display: inline-block; }
+        #deposit-address { background: var(--background-color); padding: 10px; border-radius: 8px; word-wrap: break-word; margin-bottom: 10px; font-family: monospace; }
+        #copy-deposit-addr-btn { background: var(--primary-color); color: var(--background-color); padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
         
-        .level-card { margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; }
-        .level-display { display: flex; justify-content: space-between; align-items: center; font-size: 1.3em; margin-bottom: 15px; }
-        .level-display span { font-weight: bold; }
-        .level-display .current-level { color: var(--yellow-color); }
-        .progress-bar { width: 100%; background: var(--background-color); border-radius: 5px; height: 10px; overflow: hidden; margin-bottom: 5px; }
-        .progress-bar-inner { height: 100%; background: var(--green-glow); width: 0%; transition: width 0.5s; }
-        .progress-label { font-size: 0.9em; color: #aaa; text-align: right; }
-        .level-requirements ul { list-style: none; padding: 0; text-align: left; margin-top: 15px; }
-        .level-requirements li { margin-bottom: 8px; color: #ccc; }
-        .level-requirements li.completed { color: var(--green-glow); text-decoration: line-through; }
-        
-        /* --- Inbox Section --- */
-        #inbox-section .message-list { width: 100%; display: flex; flex-direction: column; gap: 15px; }
-        .message-card { background: var(--surface-color); border-radius: 10px; padding: 15px; text-align: left; border-left: 4px solid var(--secondary-color); cursor: pointer; }
-        .message-card.unread { border-left-color: var(--primary-color); }
-        .message-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .message-title { font-weight: bold; color: var(--primary-color); }
-        .message-date { font-size: 0.8em; color: #aaa; }
-        .message-body { color: #ccc; }
-        .no-data { text-align: center; color: #888; margin-top: 40px; }
-        
-        /* --- Game Section --- */
-        #game-section h1 { color: var(--primary-color); text-shadow: 2px 2px 4px #000; margin-bottom:15px; }
-        #game-start-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: rgba(0,0,0,0.7); padding: 30px; border-radius: 15px; width:100%; }
-        #game-token-count { font-size: 1.2em; margin-bottom: 20px; }
-        #game-token-count span { color: var(--yellow-color); font-weight: bold; }
-        #start-game-btn { padding: 15px 30px; font-size: 1.5em; background: var(--green-glow); color: var(--background-color); border-radius: 10px; cursor: pointer; font-weight: bold; }
-        #start-game-btn:disabled { background: #555; cursor: not-allowed; }
-        #game-container { position: relative; width: 90vw; max-width: 400px; height: 60vh; background: #001f3f; border: 3px solid var(--secondary-color); border-radius: 10px; overflow: hidden; cursor: crosshair; display: none; }
-        .falling-object { position: absolute; font-size: 28px; user-select: none; cursor: pointer; transition: transform 0.1s ease-out; padding: 12px; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); }
-        .falling-object.collected { animation: collect-effect 0.3s ease-out forwards; pointer-events: none; }
-        @keyframes collect-effect { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
-        #scoreboard { margin-bottom: 15px; font-size: 1.2em; background-color: rgba(0, 0, 0, 0.3); padding: 10px 20px; border-radius: 8px; color: white; border: 1px solid var(--secondary-color); }
-        #game-over { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.85); padding: 30px; border-radius: 15px; text-align: center; display: none; z-index: 10; width: 80%; border: 1px solid var(--primary-color); }
-
-        /* --- Withdrawal Section --- */
+        /* --- Other Sections --- */
+        #tasks-section .task-placeholder { margin-top: 50px; font-size: 1.3em; color: #aaa; }
         #withdrawal-section .withdrawal-form {
-            background: var(--surface-color); padding: 20px; border-radius: 15px; width: 100%;
+            background: var(--surface-color); padding: 20px; border-radius: 15px;
             border: 1px solid var(--secondary-color); margin-bottom: 25px;
         }
         #withdrawal-section h3 { color: var(--primary-color); margin-top: 0; }
@@ -244,33 +284,53 @@
             border-radius: 8px; padding: 12px; color: white; font-size: 1em;
             margin-bottom: 15px; box-sizing: border-box;
         }
-        .withdraw-btn-group { display: flex; gap: 10px; }
-        .withdraw-btn {
+        #withdrawal-section .withdraw-btn-group { display: flex; gap: 10px; }
+        #withdrawal-section .withdraw-btn {
             flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold;
             font-size: 1em; cursor: pointer;
         }
         .withdraw-btn.bkash { background-color: #e2136e; color: white; }
         .withdraw-btn.binance { background-color: #f0b90b; color: #1e2329; }
+
+        /* --- Game Section --- */
+        /* FIX: Removed display properties from the ID selector to prevent override */
+        #game-section { 
+            background-color: #333; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            justify-content: center; /* This can stay as it only applies when display is flex */
+        }
+        #game-section #back-to-mining-game { position: absolute; top: 15px; right: 15px; z-index: 20; background: var(--yellow-color); color: #333; border: none; padding: 8px 15px; border-radius: 10px; font-family: 'Hind Siliguri', sans-serif; cursor: pointer; font-weight: bold; }
+        #game-section h1 { color: var(--primary-color); text-shadow: 2px 2px 4px #000; margin-bottom: 20px; }
+        #game-info-bar { font-size: 1.2em; color: white; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 10px; border: 1px solid var(--secondary-color); }
+        #game-info-bar strong { color: var(--yellow-color); }
+        #game-start-screen { text-align: center; color: white; }
+        #start-game-button {
+            padding: 20px 40px; font-size: 1.5em; font-weight: bold;
+            background: linear-gradient(45deg, var(--green-glow), var(--primary-color));
+            color: var(--background-color); border: none; border-radius: 15px;
+            cursor: pointer; margin-bottom: 20px; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        #start-game-button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 229, 255, 0.5); }
+        #start-game-button:disabled { background: #555; color: #999; cursor: not-allowed; box-shadow: none; transform: none; }
         
-        /* --- Unchanged Sections: Tasks & Advertise --- */
-        #tasks-section .task-placeholder { margin-top: 50px; font-size: 1.3em; color: #aaa; }
-        #create-task-section .balance-info { font-size: 1.2em; margin-bottom: 20px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 10px; }
-        #create-task-section .balance-info strong { color: var(--green-glow); }
-        #create-task-section .task-package-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; margin-bottom: 20px; }
-        .task-package-card { background: linear-gradient(145deg, var(--surface-color), #211f42); border: 2px solid var(--secondary-color); border-radius: 15px; padding: 15px; text-align: left; cursor: pointer; position: relative; }
-        .task-package-card:has(input:checked) { border-color: var(--primary-color); box-shadow: 0 0 15px var(--glow-color); }
-        .task-package-card input[type="radio"] { position: absolute; opacity: 0; }
-        .task-package-card h3 { color: var(--primary-color); margin: 0 0 10px 0; }
-        .task-package-card p { margin: 0; color: var(--text-color); font-size: 1.1em; }
-        .task-package-card p strong { color: var(--yellow-color); }
-        #create-task-btn, #deposit-usdt-btn { width: 100%; padding: 15px; font-size: 1.3em; font-weight: 700; color: var(--background-color); border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; }
-        #create-task-btn { background: linear-gradient(45deg, var(--green-glow), var(--primary-color)); }
-        #deposit-usdt-btn { background: linear-gradient(45deg, var(--yellow-color), var(--orange-color)); }
-        
+        #game-active-area { display: none; flex-direction: column; align-items: center; }
+        #game-section #game-container { position: relative; width: 80vw; max-width: 600px; height: 65vh; max-height: 700px; background: #001f3f; border: 3px solid var(--secondary-color); border-radius: 10px; overflow: hidden; cursor: crosshair; }
+        #game-section .falling-object { position: absolute; font-size: 28px; user-select: none; cursor: pointer; transition: transform 0.1s ease-out; padding: 12px; text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); }
+        #game-section .falling-object.collected { animation: collect-effect 0.3s ease-out forwards; pointer-events: none; }
+        @keyframes collect-effect { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+        #game-section #scoreboard { margin-bottom: 15px; font-size: 1.2em; background-color: rgba(0, 0, 0, 0.3); padding: 10px 20px; border-radius: 8px; color: white; border: 1px solid var(--secondary-color); }
+        #game-section #scoreboard span { font-weight: bold; color: var(--primary-color); }
+        #game-section #scoreboard #timer-value { color: var(--yellow-color); }
+        #game-section #scoreboard #usdt-score { color: var(--green-glow); }
+        #game-section #game-over { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.85); padding: 30px; border-radius: 15px; text-align: center; display: none; z-index: 10; width: 80%; border: 1px solid var(--primary-color); }
+        #game-section #restart-button { padding: 12px 25px; font-size: 1.1em; cursor: pointer; background-color: var(--green-glow); color: var(--background-color); border: none; border-radius: 5px; margin-top: 15px; font-weight: bold; }
+        #game-section #restart-button:hover { filter: brightness(1.1); }
     </style>
-    <!-- Dependencies -->
+    <!-- QR Code Library -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.js"></script>
+    <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/web-app.js"></script>
+    <!-- Ad SDKs -->
     <script src="https://ad.gigapub.tech/script?id=1470"></script>
     <script src='//libtl.com/sdk.js' data-zone='9689843' data-sdk='show_9689843'></script>
 </head>
@@ -279,31 +339,38 @@
         <div class="view-container">
             <!-- Mining App View -->
             <div id="mining-section" class="view active">
-                 <div class="container">
+                <div class="container">
                     <div>
                         <div id="top-balance-bar">
-                            <div class="header-icons">
-                                <button class="header-icon-btn" onclick="showView('profile-section')">
-                                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                                </button>
-                                <button class="header-icon-btn" onclick="showView('inbox-section')">
-                                     <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                                     <div id="unread-dot" class="unread-dot"></div>
-                                </button>
+                            <div id="pg-balance-top-container">PG <span id="pg-balance-top">0.0000</span></div>
+                            <div id="profile-button" onclick="showView('profile-section')">
+                                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                             </div>
-                            <div>PG <span id="pg-balance-top">0.0000</span></div>
-                            <div>$ <span id="usd-balance-top">0.00</span></div>
+                            <div id="usd-balance-top-container">$ <span id="usd-balance-top">0.00</span></div>
                         </div>
                         <h1>PG Coin Mining</h1>
                         <div class="mining-display">
                             <h2>Your Balance</h2>
                             <p id="balance">0.0000 PG</p>
-                             <p id="status-container">Status: <span id="status" class="stopped">Stopped</span></p>
+                            <div id="inbox-icon" onclick="showView('inbox-section')">
+                                📥 <span id="inbox-notification"></span>
+                            </div>
+                            <div class="action-boxes">
+                                <div class="action-box" onclick="showView('invite-section')">
+                                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a4 4 0 0 0-4 4v2H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 0 1 1-1h2z"/></svg>
+                                    <span>Invite</span>
+                                </div>
+                                <div class="action-box" onclick="handleConvertClick()">
+                                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="m21.435 2.585-2.02 2.02c-1.39-1.12-3.23-1.6-5.06-1.6h-1.355L14.435 6H7.565L6.13 3.005H5.06c-3.61 0-6.68 2.68-7.04 6.22l2.12.35c.32-2.82 2.89-5.07 5.86-5.07h.75l1.435 3h6.87l1.435-3h.75c2.97 0 5.54 2.25 5.86 5.07l2.12-.35c-.35-3.54-3.42-6.22-7.03-6.22zm-18.87 18.83 2.02-2.02c1.39 1.12 3.23 1.6 5.06 1.6h1.355L9.565 18h6.87l1.435 2.995h1.075c3.61 0 6.68-2.68 7.04-6.22l-2.12-.35c-.32 2.82-2.89 5.07-5.86 5.07h-.75L14.565 21H7.695l-1.435-3h-.75c-2.97 0-5.54-2.25-5.86-5.07l-2.12.35c.35 3.54 3.42 6.22 7.03 6.22z"/></svg>
+                                    <span>CVT</span>
+                                </div>
+                            </div>
+                            <p id="status-container">Status: <span id="status" class="stopped">Stopped</span></p>
                             <p id="timer"></p>
                         </div>
                         <div class="button-row">
                            <button id="mining-button">Start Mining</button>
-                           <button id="watch-ad-button" onclick="MiningApp.handleWatchAd()">
+                           <button id="watch-ad-button">
                                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M21.406 8.442a2.368 2.368 0 0 0-1.666-1.696C18.15 6.25 12 6.25 12 6.25s-6.15 0-7.74.496a2.368 2.368 0 0 0-1.666 1.696C2.1 10.046 2.1 12 2.1 12s0 1.954.494 3.558a2.368 2.368 0 0 0 1.666 1.696c1.59.496 7.74.496 7.74.496s6.15 0 7.74-.496a2.368 2.368 0 0 0 1.666-1.696C21.9 13.954 21.9 12 21.9 12s0-1.954-.494-3.558zM9.9 14.5v-5l4.5 2.5-4.5 2.5z"/></svg>
                                 <span>Daily Claim Rewards</span>
                            </button>
@@ -312,385 +379,444 @@
                 </div>
             </div>
             
-            <!-- Invite View -->
-            <div id="invite-section" class="view">
-                 <div class="page-header">
-                    <button class="back-button" onclick="showView('mining-section')">‹</button>
-                    <h2 class="page-title">Invite Friends</h2>
-                </div>
-                <div class="invite-box">
-                    <h3>Share Your Link</h3>
-                    <p>Invite friends to get 1 Game Token and 2.5 HP (30 days) for each referral!</p>
-                    <div class="referral-link-container">
-                        <input type="text" id="referral-link" readonly value="Loading...">
-                        <button id="copy-ref-btn" onclick="copyReferralLink()">Copy</button>
+            <!-- Profile View -->
+            <div id="profile-section" class="view">
+                 <div class="page-container">
+                    <div class="page-header">
+                        <button class="back-button" onclick="showView('mining-section')">‹</button>
+                        <h2 class="page-title">My Profile</h2>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <h3>Lifetime PG Earned</h3>
+                            <p id="lifetime-pg">0.0000</p>
+                        </div>
+                        <div class="profile-stat">
+                            <h3>Lifetime USDT Earned</h3>
+                            <p id="lifetime-usdt">0.000000</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Profile View -->
-            <div id="profile-section" class="view">
-                <div class="page-header">
-                    <button class="back-button" onclick="showView('mining-section')">‹</button>
-                    <h2 class="page-title">My Profile</h2>
+            <!-- Inbox View -->
+            <div id="inbox-section" class="view">
+                <div class="page-container">
+                    <div class="page-header">
+                        <button class="back-button" onclick="showView('mining-section')">‹</button>
+                        <h2 class="page-title">Inbox</h2>
+                    </div>
+                    <ul id="inbox-list">
+                        <li class="inbox-placeholder">No new messages.</li>
+                    </ul>
                 </div>
-                <div class="profile-card">
-                    <h3>Lifetime Stats</h3>
-                    <div class="stat-row">
-                        <span class="stat-label">Total PG Earned</span>
-                        <span id="lifetime-pg" class="stat-value">0.0000</span>
+            </div>
+            
+            <!-- Other Views -->
+            <div id="tasks-section" class="view">
+                <div class="page-container">
+                    <div class="page-header">
+                        <button class="back-button" onclick="showView('mining-section')">‹</button>
+                        <h2 class="page-title">Available Tasks</h2>
                     </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Total USDT Earned</span>
-                        <span id="lifetime-usdt" class="stat-value">0.00</span>
-                    </div>
+                    <p class="task-placeholder">New tasks from advertisers will appear here!</p>
+                </div>
+            </div>
 
-                    <div class="level-card">
-                        <div class="level-display">
-                            <span>Level <span id="current-level" class="current-level">1</span></span>
-                            <span id="next-level-label">To Level 2</span>
+            <div id="invite-section" class="view">
+                <div class="page-container">
+                    <div class="page-header">
+                        <button class="back-button" onclick="showView('mining-section')">‹</button>
+                        <h2 class="page-title">Invite Friends</h2>
+                    </div>
+                    <div class="invite-box">
+                        <h3>Share Your Link</h3>
+                        <p>Invite friends and earn <strong>1 Game Token</strong> + <strong>2.5 HP</strong> for each referral!</p>
+                        <div class="referral-link-container">
+                            <input type="text" id="referral-link" readonly value="Loading...">
+                            <button id="copy-ref-btn" onclick="copyReferralLink()">Copy</button>
                         </div>
-                        <div class="progress-bar">
-                            <div id="level-progress-bar" class="progress-bar-inner"></div>
+                    </div>
+                </div>
+            </div>
+        
+            <div id="create-task-section" class="view">
+                <div class="page-container">
+                     <div class="page-header">
+                        <button class="back-button" onclick="showView('mining-section')">‹</button>
+                        <h2 class="page-title">Create a Task</h2>
+                    </div>
+                    <div class="balance-info">Your USDT Balance: <strong id="task-usdt-balance">0.00</strong></div>
+                    <p>Deposit USDT to create tasks for others. Your task will be reviewed by an admin.</p>
+                    
+                    <div id="task-package-form">
+                        <div class="task-package-grid">
+                            <label class="task-package-card"><input type="radio" name="task_package" value="0.5"><h3>500 Tasks</h3><p>Price: <strong>$0.50</strong></p></label>
+                            <label class="task-package-card"><input type="radio" name="task_package" value="0.9"><h3>1,000 Tasks</h3><p>Price: <strong>$0.90</strong></p></label>
+                            <label class="task-package-card"><input type="radio" name="task_package" value="1.7"><h3>2,000 Tasks</h3><p>Price: <strong>$1.70</strong></p></label>
+                            <label class="task-package-card"><input type="radio" name="task_package" value="3.5"><h3>5,000 Tasks</h3><p>Price: <strong>$3.50</strong></p></label>
+                            <label class="task-package-card"><input type="radio" name="task_package" value="8"><h3>10,000 Tasks</h3><p>Price: <strong>$8.00</strong></p></label>
                         </div>
-                        <div id="progress-label" class="progress-label">0/3</div>
-                        
-                        <div class="level-requirements">
-                            <h4>Requirements:</h4>
-                            <ul id="level-req-list"></ul>
-                        </div>
+                        <button id="create-task-btn" onclick="handleCreateTask()">Create Task</button>
+                        <button id="deposit-usdt-btn" onclick="showDepositModal()">Deposit USDT</button>
                     </div>
                 </div>
             </div>
             
-             <!-- Inbox View -->
-            <div id="inbox-section" class="view">
-                <div class="page-header">
-                    <button class="back-button" onclick="showView('mining-section')">‹</button>
-                    <h2 class="page-title">Inbox</h2>
-                </div>
-                <div id="inbox-list" class="message-list">
-                    <div class="no-data">No messages yet.</div>
+            <div id="withdrawal-section" class="view">
+                <div class="page-container">
+                    <div class="page-header">
+                        <button class="back-button" onclick="showView('mining-section')">‹</button>
+                        <h2 class="page-title">Withdrawal</h2>
+                    </div>
+                    <div class="withdrawal-form">
+                        <h3>Withdraw PG Coin</h3>
+                        <p>Available: <span id="withdraw-pg-balance">0.0000</span> PG</p>
+                        <p>Minimum: 25 PG | Rate: 25 PG = 60 BDT / $0.50</p>
+                        <input type="number" id="pg-withdraw-amount" placeholder="Amount (e.g., 25)">
+                        <input type="text" id="pg-withdraw-address" placeholder="bKash Number or Binance UID">
+                        <div class="withdraw-btn-group">
+                            <button class="withdraw-btn bkash" onclick="handleWithdraw('pg', 'bkash')">bKash</button>
+                            <button class="withdraw-btn binance" onclick="handleWithdraw('pg', 'binance')">Binance</button>
+                        </div>
+                    </div>
+                    <div class="withdrawal-form">
+                        <h3>Withdraw USDT</h3>
+                        <p>Available: <span id="withdraw-usdt-balance">0.000000</span> USDT</p>
+                        <p>Minimum: 1 USDT | Rate: 1 USDT = 120 BDT</p>
+                        <input type="number" id="usdt-withdraw-amount" placeholder="Amount (e.g., 1.5)">
+                        <input type="text" id="usdt-withdraw-address" placeholder="bKash Number or Binance UID">
+                        <div class="withdraw-btn-group">
+                            <button class="withdraw-btn bkash" onclick="handleWithdraw('usdt', 'bkash')">bKash</button>
+                            <button class="withdraw-btn binance" onclick="handleWithdraw('usdt', 'binance')">Binance</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Game View -->
+        
             <div id="game-section" class="view">
-                <div id="game-start-screen">
-                    <h1>Snow & Coin Catcher</h1>
-                    <p id="game-token-count">You have <span>0</span> Game Tokens.</p>
-                    <button id="start-game-btn">Start Game (1 Token)</button>
-                    <button class="back-button" style="position: static; margin-top: 20px;" onclick="showView('mining-section')">Go Back</button>
+                <button id="back-to-mining-game">Go Back</button>
+                <h1>❄️ Snow & Coin Catcher 💸</h1>
+                <div id="game-info-bar">
+                    <span>Game Tokens: <strong id="game-token-count">0</strong></span>
                 </div>
-
-                <div id="game-container">
+                 <div id="game-start-screen">
+                    <button id="start-game-button" onclick="SnowCatcherGame.handleStartClick()">Start Game (1 Token)</button>
+                    <p>Play the game to earn Score and USDT.<br>Get more tokens from Daily Rewards!</p>
+                </div>
+                <div id="game-active-area">
                     <div id="scoreboard">
                         <span>Score: </span><span id="score">0</span> | 
+                        <span>Missed: </span><span id="missed">0</span> |
                         <span>USDT: </span><span id="usdt-score">0.000000</span> |
                         <span>Time: </span><span id="timer-value">60</span>s
                     </div>
-                     <div id="game-over">
-                        <h2>Game Over!</h2>
-                        <p>Final Score: <span id="final-score">0</span></p>
-                        <p>Total USDT: <span id="final-usdt-score">0.000000</span></p>
-                        <button id="restart-button">Play Again (1 Token)</button>
+                    <div id="game-container">
+                        <div id="game-over">
+                            <h2 id="game-over-title">Game Over!</h2>
+                            <p>Your Final Score: <span id="final-score">0</span></p>
+                            <p>Your Total USDT: <span id="final-usdt-score">0.000000</span></p>
+                            <button id="restart-button">Play Again (1 Token)</button>
+                        </div>
                     </div>
-                </div>
-            </div>
-            
-            <!-- Withdrawal View -->
-             <div id="withdrawal-section" class="view">
-                <div class="page-header">
-                    <button class="back-button" onclick="showView('mining-section')">‹</button>
-                    <h2 class="page-title">Withdrawal</h2>
-                </div>
-                <div class="withdrawal-form">
-                    <h3>Withdraw PG Coin</h3>
-                    <p>Available: <span id="withdraw-pg-balance">0.0000</span> PG</p>
-                    <input type="number" id="pg-withdraw-amount" placeholder="Amount (e.g., 25)">
-                    <input type="text" id="pg-withdraw-address" placeholder="bKash Number or Binance UID">
-                    <div class="withdraw-btn-group">
-                        <button class="withdraw-btn bkash" onclick="handleWithdraw('pg', 'bkash')">bKash</button>
-                        <button class="withdraw-btn binance" onclick="handleWithdraw('pg', 'binance')">Binance</button>
-                    </div>
-                </div>
-                 <div class="withdrawal-form">
-                    <h3>Withdraw USDT</h3>
-                    <p>Available: <span id="withdraw-usdt-balance">0.000000</span> USDT</p>
-                    <input type="number" id="usdt-withdraw-amount" placeholder="Amount (e.g., 1.5)">
-                    <input type="text" id="usdt-withdraw-address" placeholder="bKash Number or Binance UID">
-                    <div class="withdraw-btn-group">
-                        <button class="withdraw-btn bkash" onclick="handleWithdraw('usdt', 'bkash')">bKash</button>
-                        <button class="withdraw-btn binance" onclick="handleWithdraw('usdt', 'binance')">Binance</button>
-                    </div>
-                </div>
-             </div>
-
-            <!-- Unchanged Views: Tasks & Advertise -->
-            <div id="tasks-section" class="view">
-                <div class="page-header">
-                    <button class="back-button" onclick="showView('mining-section')">‹</button>
-                    <h2 class="page-title">Available Tasks</h2>
-                </div>
-                <p class="task-placeholder">New tasks from advertisers will appear here!</p>
-            </div>
-            <div id="create-task-section" class="view">
-                 <div class="page-header">
-                    <button class="back-button" onclick="showView('mining-section')">‹</button>
-                    <h2 class="page-title">Create a Task</h2>
-                </div>
-                <div class="balance-info" style="width:100%">Your USDT Balance: <strong id="task-usdt-balance">0.00</strong></div>
-                <div id="task-package-form" style="width:100%">
-                    <div class="task-package-grid">
-                        <label class="task-package-card"><input type="radio" name="task_package" value="0.5"><h3>500 Tasks</h3><p>Price: <strong>$0.50</strong></p></label>
-                        <label class="task-package-card"><input type="radio" name="task_package" value="0.9"><h3>1,000 Tasks</h3><p>Price: <strong>$0.90</strong></p></label>
-                    </div>
-                    <button id="create-task-btn" onclick="alert('This feature is for advertisers.')">Create Task</button>
-                    <button id="deposit-usdt-btn" onclick="alert('This feature is for advertisers.')">Deposit USDT</button>
                 </div>
             </div>
         </div>
 
         <div class="nav-bar">
-             <button onclick="showView('mining-section')" class="active"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12.71 2.29a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42A1 1 0 0 0 3 13h1v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7h1a1 1 0 0 0 .71-1.71zM18 20H6v-9.59l6-6 6 6z"/></svg><span>Home</span></button>
-             <button onclick="showView('invite-section')"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg><span>Invite</span></button>
-             <button onclick="showView('tasks-section')"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M15.54 10.5h-1a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm-5.08 0H7.2a.5.5 0 0 1 0-1h3.26a.5.5 0 0 1 0 1zm5.08 4h-1a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm-5.08 0H7.2a.5.5 0 0 1 0-1h3.26a.5.5 0 0 1 0 1zM21 4H3a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-1 14H4V6h16z"/></svg><span>Tasks</span></button>
-             <button onclick="showView('create-task-section')"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.29 4.29l-1.58 1.58C19.8 6.45 20 7.21 20 8s-.2 1.55-.58 2.13l1.58 1.58c.87-1.12 1-2.67 1-4.71s-.13-3.59-1-4.71zM4 8c0-.79.2-1.55.59-2.13L2.71 4.29C1.83 5.41 1.71 6.96 1.71 9s.13 3.59 1 4.71l1.88-1.88C4.2 11.27 4 10.53 4 9.79V8zm12-2h-4v4h4V6zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg><span>Advertise</span></button>
-             <button onclick="showView('withdrawal-section')"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2v12zM9 4h6v2H9V4zm10 6H5v10h14V10z"></path><path d="M11 12h2v6h-2z"/></svg><span>Withdraw</span></button>
-             <button onclick="showView('game-section')"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M3.5 11c.41 0 .79-.13 1.11-.34a.5.5 0 0 1 .45.89 2.49 2.49 0 0 1-3.12 0 .5.5 0 0 1 .45-.89A1.49 1.49 0 0 1 3.5 11zm17 0a1.49 1.49 0 0 1 1.11.34.5.5 0 0 1 .45-.89 2.49 2.49 0 0 1-3.12 0 .5.5 0 0 1 .45.89A1.49 1.49 0 0 1 20.5 11zM12 4.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zM6.27 6.27a.5.5 0 0 1 .71 0l.7.7a.5.5 0 0 1-.7.71l-.71-.7a.5.5 0 0 1 0-.71zm11.46 0a.5.5 0 0 1 .71.71l-.7.7a.5.5 0 0 1-.71-.7l.7-.7a.5.5 0 0 1 .01 0zM12 13a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0-5a2 2 0 1 0 2 2 2 2 0 0 0-2-2zm-1 12.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zM12 22a7 7 0 0 1-7-7 .5.5 0 0 1 1 0 6 6 0 0 0 12 0 .5.5 0 0 1 1 0 7 7 0 0 1-7 7z"/></svg><span>Game</span></button>
+             <button onclick="showView('mining-section')" class="active">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12.71 2.29a1 1 0 0 0-1.42 0l-9 9a1 1 0 0 0 0 1.42A1 1 0 0 0 3 13h1v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7h1a1 1 0 0 0 .71-1.71zM18 20H6v-9.59l6-6 6 6z"/></svg>
+                <span>Home</span></button>
+             <button onclick="showView('tasks-section')">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M15.54 10.5h-1a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm-5.08 0H7.2a.5.5 0 0 1 0-1h3.26a.5.5 0 0 1 0 1zm5.08 4h-1a.5.5 0 0 1 0-1h1a.5.5 0 0 1 0 1zm-5.08 0H7.2a.5.5 0 0 1 0-1h3.26a.5.5 0 0 1 0 1zM21 4H3a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1zm-1 14H4V6h16z"/></svg>
+                <span>Tasks</span></button>
+            <button onclick="showView('create-task-section')">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.29 4.29l-1.58 1.58C19.8 6.45 20 7.21 20 8s-.2 1.55-.58 2.13l1.58 1.58c.87-1.12 1-2.67 1-4.71s-.13-3.59-1-4.71zM4 8c0-.79.2-1.55.59-2.13L2.71 4.29C1.83 5.41 1.71 6.96 1.71 9s.13 3.59 1 4.71l1.88-1.88C4.2 11.27 4 10.53 4 9.79V8zm12-2h-4v4h4V6zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                <span>Advertise</span></button>
+            <button onclick="showView('withdrawal-section')">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8h2V6h-4V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v2h2v12zM9 4h6v2H9V4zm10 6H5v10h14V10z"></path><path d="M11 12h2v6h-2z"/></svg>
+                <span>Withdraw</span></button>
+            <button onclick="showView('game-section')">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M3.5 11c.41 0 .79-.13 1.11-.34a.5.5 0 0 1 .45.89 2.49 2.49 0 0 1-3.12 0 .5.5 0 0 1 .45-.89A1.49 1.49 0 0 1 3.5 11zm17 0a1.49 1.49 0 0 1 1.11.34.5.5 0 0 1 .45-.89 2.49 2.49 0 0 1-3.12 0 .5.5 0 0 1 .45.89A1.49 1.49 0 0 1 20.5 11zM12 4.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zM6.27 6.27a.5.5 0 0 1 .71 0l.7.7a.5.5 0 0 1-.7.71l-.71-.7a.5.5 0 0 1 0-.71zm11.46 0a.5.5 0 0 1 .71.71l-.7.7a.5.5 0 0 1-.71-.7l.7-.7a.5.5 0 0 1 .01 0zM12 13a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0-5a2 2 0 1 0 2 2 2 2 0 0 0-2-2zm-1 12.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zM12 22a7 7 0 0 1-7-7 .5.5 0 0 1 1 0 6 6 0 0 0 12 0 .5.5 0 0 1 1 0 7 7 0 0 1-7 7z"/></svg>
+                <span>Game</span></button>
+        </div>
+    </div>
+    
+    <!-- Deposit Modal -->
+    <div id="deposit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn" onclick="closeDepositModal()">&times;</span>
+            <h3>Deposit USDT (BEP20)</h3>
+            <p>Send only USDT on the BEP20 (BSC) network to this address.</p>
+            <div id="deposit-qr-code"></div>
+            <div id="deposit-address">0xed5ff44a662b71023b082f5915faa49e3d386a1c</div>
+            <button id="copy-deposit-addr-btn" onclick="copyDepositAddress()">Copy Address</button>
+            <p style="font-size: 0.8em; color: var(--yellow-color); margin-top: 15px;">Your balance will be updated automatically after network confirmations. This may take a few minutes.</p>
         </div>
     </div>
     
     <!-- Firebase SDK -->
     <script type="module">
+        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
-        import { getDatabase, ref, onValue, set, update, get, push } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+        import { getDatabase, ref, onValue, set, update, get, serverTimestamp, push } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
         
+        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyA7yFi1kEQD2xq51hkdpzE7ppBzpfL9UaU",
             authDomain: "pgenix-1666b.firebaseapp.com",
             databaseURL: "https://pgenix-1666b-default-rtdb.firebaseio.com",
             projectId: "pgenix-1666b",
-            storageBucket: "pgenix-1666b.firebasestorage.app",
+            storageBucket: "pgenix-1666b.appspot.com",
             messagingSenderId: "162586059166",
             appId: "1:162586059166:web:7d1794b1da42b63879b68f",
             measurementId: "G-1VQ22H5XC7"
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getDatabase(app);
         
-        window.firebaseServices = { db, ref, onValue, set, update, get, push, analytics };
+        // Make Firebase services globally available for the main script
+        window.firebaseServices = { db, ref, onValue, set, update, get, serverTimestamp, push };
     </script>
     
-    <!-- Adexium Ads -->
-    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
-    
     <script>
-        // --- GLOBAL & UTILITY ---
-        let currentUserId = null;
+        // --- MASTER SCRIPT ---
+        let currentUserId = null; // This will hold the user's ID
         
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
-            document.getElementById(viewId)?.classList.add('active');
+            const newView = document.getElementById(viewId);
+            if(newView) newView.classList.add('active');
             
             document.querySelectorAll('.nav-bar button').forEach(button => button.classList.remove('active'));
             const navMap = {
-                'invite-section': 'invite-section', // Made invite its own nav item
+                'profile-section': 'mining-section', // Profile is not a nav button, defaults to home
+                'inbox-section': 'mining-section', // Inbox is not a nav button, defaults to home
                 'tasks-section': 'tasks-section',
                 'create-task-section': 'create-task-section',
                 'withdrawal-section': 'withdrawal-section',
                 'game-section': 'game-section',
-                'mining-section': 'mining-section',
-                'profile-section': 'mining-section',
-                'inbox-section': 'mining-section'
+                'invite-section': 'mining-section', // Invite is part of home
+                'mining-section': 'mining-section'
             };
-            // Remap nav buttons to sections they lead to
-            const navButton = document.querySelector(`.nav-bar button[onclick*="'${navMap[viewId] || 'mining-section'}"]`);
-            if (navButton) navButton.classList.add('active');
 
-            if (viewId === 'profile-section') ProfileApp.render(MiningApp.userData);
-            if (viewId === 'inbox-section') InboxApp.render(MiningApp.userData.messages, MiningApp.userData.readMessages);
-            if (viewId === 'game-section') GameApp.showStartScreen();
+            const navButtonSelector = `.nav-bar button[onclick*="'${navMap[viewId] || 'mining-section'}"]`;
+            const activeBtn = document.querySelector(navButtonSelector);
+            if(activeBtn) activeBtn.classList.add('active');
+            
+            // Populate view-specific data when shown
+            if (viewId === 'withdrawal-section') {
+                document.getElementById('withdraw-pg-balance').textContent = MiningApp.getAvailableBalance('pg').toFixed(4);
+                document.getElementById('withdraw-usdt-balance').textContent = MiningApp.getAvailableBalance('usdt').toFixed(6);
+            }
+            if(viewId === 'create-task-section'){
+                document.getElementById('task-usdt-balance').textContent = MiningApp.getAvailableBalance('usdt').toFixed(2);
+            }
+            if(viewId === 'invite-section'){
+                if (currentUserId) {
+                    // Updated referral link
+                    document.getElementById('referral-link').value = `http://t.me/PGenix_Bot/PGenix?start=${currentUserId}`;
+                }
+            }
+             if(viewId === 'profile-section'){
+                document.getElementById('lifetime-pg').textContent = (MiningApp.userData.lifetimePGEarned || 0).toFixed(4);
+                document.getElementById('lifetime-usdt').textContent = (MiningApp.userData.lifetimeUsdtEarned || 0).toFixed(6);
+            }
+            if(viewId === 'inbox-section'){
+                MiningApp.renderInbox();
+            }
+
+            if (viewId === 'game-section') {
+                if (!SnowCatcherGame.isInitialized) SnowCatcherGame.init();
+                SnowCatcherGame.showStartScreen();
+            } else {
+                if (SnowCatcherGame.isInitialized && !SnowCatcherGame.isGameOver) SnowCatcherGame.endGame('view-switch');
+            }
         }
-
+        
+        // Shows a random ad from available providers
         function showRandomAd(onSuccess, onError) {
-            const adFunctions = [
-                () => window.showGiga ? window.showGiga().then(onSuccess).catch(onError) : onError("GigaPub not ready"),
-                () => window.show_9689843 ? show_9689843().then(onSuccess).catch(onError) : onError("Monetag not ready")
+            const adProviders = [
+                { // GigaPub
+                    name: "GigaPub",
+                    show: () => {
+                        if (typeof window.showGiga === 'function') {
+                             window.showGiga("main").then(onSuccess).catch(e => { console.error("GigaPub error:", e); onError(e); });
+                        } else {
+                            console.error("GigaPub SDK not loaded.");
+                            onError("GigaPub SDK not loaded.");
+                        }
+                    }
+                },
+                { // Monetag
+                    name: "Monetag",
+                    show: () => {
+                        if (typeof window.show_9689843 === 'function') {
+                            window.show_9689843().then(onSuccess).catch(e => { console.error("Monetag error:", e); onError(e); });
+                        } else {
+                            console.error("Monetag SDK not loaded.");
+                            onError("Monetag SDK not loaded.");
+                        }
+                    }
+                }
             ];
-            adFunctions[Math.floor(Math.random() * adFunctions.length)]();
+            
+            const randomProvider = adProviders[Math.floor(Math.random() * adProviders.length)];
+            console.log(`Showing ad from: ${randomProvider.name}`);
+            try {
+                randomProvider.show();
+            } catch (e) {
+                console.error(`Error calling ad provider ${randomProvider.name}:`, e);
+                onError(e);
+            }
         }
 
+        function showDepositModal() {
+            const depositAddress = "0xed5ff44a662b71023b082f5915faa49e3d386a1c";
+            const qrCodeContainer = document.getElementById('deposit-qr-code');
+            qrCodeContainer.innerHTML = '';
+            const qr = qrcode(0, 'M');
+            qr.addData(depositAddress);
+            qr.make();
+            qrCodeContainer.innerHTML = qr.createImgTag(4);
+            document.getElementById('deposit-modal').style.display = 'flex';
+        }
+        function closeDepositModal() { document.getElementById('deposit-modal').style.display = 'none'; }
+        function copyDepositAddress() {
+            const address = document.getElementById('deposit-address').textContent;
+            navigator.clipboard.writeText(address).then(() => alert('Address copied to clipboard!'));
+        }
         function copyReferralLink() {
             const link = document.getElementById('referral-link').value;
             navigator.clipboard.writeText(link).then(() => alert('Referral link copied!'));
         }
 
-        function handleWithdraw(type, method) {
-            const { db, ref, push, update } = window.firebaseServices;
-            const amountEl = document.getElementById(`${type}-withdraw-amount`);
-            const addressEl = document.getElementById(`${type}-withdraw-address`);
-            const amount = parseFloat(amountEl.value);
-            const address = addressEl.value.trim();
-            const balanceKey = type === 'pg' ? 'pgBalance' : 'usdtBalance';
-            const balance = MiningApp.userData[balanceKey] || 0;
-
-            if (!amount || isNaN(amount) || !address) { alert('Please fill all fields.'); return; }
-            if (amount <= 0) { alert('Invalid amount.'); return; }
-            if (amount > balance) { alert('Insufficient balance.'); return; }
-
-            const req = {
-                userId: currentUserId,
-                amount: amount,
-                type: type,
-                address: address,
-                method: method,
-                status: 'Pending',
-                timestamp: Date.now()
-            };
-
-            const updates = {};
-            updates[balanceKey] = balance - amount;
-            updates['totalWithdrawals'] = (MiningApp.userData.totalWithdrawals || 0) + 1;
-
-            const withdrawReqRef = ref(db, 'withdrawalRequests');
-            push(withdrawReqRef, req)
-                .then(() => update(ref(db, `users/${currentUserId}`), updates))
-                .then(() => {
-                    alert('Withdrawal request submitted successfully!');
-                    amountEl.value = '';
-                    addressEl.value = '';
-                })
-                .catch(err => {
-                    alert('Failed to submit request. Please try again.');
-                    console.error(err);
-                });
-        }
-        
-        // --- LEVELING SYSTEM LOGIC ---
-        const LevelSystem = {
-            levels: {
-                1: { nextLevel: 2, req: { pg: 5 }, reward: { permanentHP: 10 } },
-                2: { nextLevel: 3, req: { pg: 15, usdt: 0.2, withdrawals: 1 }, reward: { permanentHP: 20 } },
-                3: { nextLevel: 4, req: { pg: 30, usdt: 1, referrals: 5 }, reward: { permanentHP: 25, gameTokens: 5 } },
-                4: { nextLevel: null }
-            },
-            
-            async checkAndApplyLevelUp(userId, userData) {
-                const currentLevel = userData.level || 1;
-                if (!this.levels[currentLevel] || !this.levels[currentLevel].nextLevel) return;
-
-                const nextLevelInfo = this.levels[currentLevel];
-                const req = nextLevelInfo.req;
-
-                const conditionsMet = 
-                    (!req.pg || (userData.lifetimePgEarned || 0) >= req.pg) &&
-                    (!req.usdt || (userData.lifetimeUsdtEarned || 0) >= req.usdt) &&
-                    (!req.withdrawals || (userData.totalWithdrawals || 0) >= req.withdrawals) &&
-                    (!req.referrals || (userData.totalReferrals || 0) >= req.referrals);
-                
-                if (conditionsMet) {
-                    const { db, ref, update } = window.firebaseServices;
-                    const reward = nextLevelInfo.reward;
-                    const updates = {
-                        level: nextLevelInfo.nextLevel,
-                        permanentHP: (userData.permanentHP || 0) + (reward.permanentHP || 0),
-                        gameTokens: (userData.gameTokens || 0) + (reward.gameTokens || 0)
-                    };
-
-                    await update(ref(db, 'users/' + userId), updates);
-                    alert(`Congratulations! You've reached Level ${updates.level}! You received ${reward.permanentHP || 0} permanent HP and ${reward.gameTokens || 0} game tokens.`);
-                }
-            }
-        };
-
-        // --- MINING APP MODULE ---
+        // --- MINING APP SCRIPT ---
         const MiningApp = {
             balanceEl: document.getElementById('balance'), statusEl: document.getElementById('status'),
             timerEl: document.getElementById('timer'), miningButton: document.getElementById('mining-button'),
             pgBalanceTopEl: document.getElementById('pg-balance-top'), usdBalanceTopEl: document.getElementById('usd-balance-top'),
             
-            HP_TO_PG_PER_DAY: 0.1,
+            BASE_PG_PER_DAY: 0.7,
+            HP_TO_PG_DAY_RATE: 0.1, // 1 HP = +0.1 PG/day
             MINING_SESSION_DURATION_MS: 6 * 60 * 60 * 1000,
+            ONE_DAY_MS: 24 * 60 * 60 * 1000,
             PG_TO_USD_RATE: 0.02,
-
+            SCORE_TO_PG_RATE: 1000,
+            
             userData: {},
-            miningInterval: null, timerInterval: null, totalHP: 0,
+            miningInterval: null, timerInterval: null,
 
             init(userId, referrerId) {
                 currentUserId = userId;
                 this.miningButton.addEventListener('click', () => this.handleStartMiningClick());
+                document.getElementById('watch-ad-button').addEventListener('click', () => this.handleWatchAd());
+                document.getElementById('back-to-mining-game').addEventListener('click', () => showView('mining-section'));
                 this.loadAndListenForUserData(userId, referrerId);
             },
             
-            async loadAndListenForUserData(userId, referrerId) {
-                const { db, ref, onValue, set, update, get } = window.firebaseServices;
+            loadAndListenForUserData(userId, referrerId) {
+                const { db, ref, onValue, set, get, update } = window.firebaseServices;
                 const userRef = ref(db, 'users/' + userId);
 
                 onValue(userRef, (snapshot) => {
+                    const now = Date.now();
                     if (snapshot.exists()) {
                         this.userData = snapshot.val();
-                        this.updateUI();
-                        this.checkMiningState();
-                        LevelSystem.checkAndApplyLevelUp(userId, this.userData);
+                        let updates = {};
+
+                        // Check for daily reset
+                        if (!this.userData.lastDailyReset || (now - this.userData.lastDailyReset > this.ONE_DAY_MS)) {
+                            console.log("Daily mining limit and ads reset.");
+                            updates.pgMinedToday = 0;
+                            updates.adsWatchedToday = 0;
+                            updates.lastDailyReset = now;
+                        }
+                        
+                        // Cleanup expired HP boosts
+                        const activeBoosts = (this.userData.hpBoosts || []).filter(boost => boost.expiresAt > now);
+                        if (activeBoosts.length !== (this.userData.hpBoosts || []).length) {
+                             updates.hpBoosts = activeBoosts;
+                             console.log("Cleaned up expired HP boosts.");
+                        }
+
+                        if(Object.keys(updates).length > 0) {
+                            update(userRef, updates).then(() => {
+                               Object.assign(this.userData, updates); // Sync local state
+                               this.checkMiningState();
+                            });
+                        } else {
+                            this.checkMiningState();
+                        }
+                        
                     } else {
+                        // Create a new user entry
+                        console.log("Creating new user profile.");
                         const newUser = {
-                            pgBalance: 0, usdtBalance: 0, level: 1, permanentHP: 5,
-                            temporaryHP: {}, gameTokens: 5, lifetimePgEarned: 0, lifetimeUsdtEarned: 0,
-                            totalWithdrawals: 0, totalReferrals: 0, adsWatchedToday: 0,
-                            lastAdWatchDate: null, miningSessionEndTime: null, readMessages: {},
-                            createdAt: new Date().toISOString()
+                            pgBalance: 0, usdtBalance: 0,
+                            gameTokens: 5, // 5 free tokens for new users
+                            hpBoosts: [],
+                            pendingWithdrawals: { pg: 0, usdt: 0 },
+                            adsWatchedToday: 0, lastAdWatchDate: null,
+                            miningSessionEndTime: null, pgMinedToday: 0,
+                            lastDailyReset: now, createdAt: new Date().toISOString(),
+                            lifetimePGEarned: 0, lifetimeUsdtEarned: 0,
+                            messages: [],
+                            referredBy: referrerId || null
                         };
                         set(userRef, newUser).then(() => {
-                            if (referrerId) this.handleReferral(referrerId, userId);
+                            if(referrerId) {
+                                this.awardReferrer(referrerId);
+                            }
                         });
+                    }
+                    this.updateDisplay();
+                });
+            },
+
+            awardReferrer(referrerId) {
+                // SECURITY NOTE: This is client-side and can be exploited.
+                // For a real application, this logic MUST be moved to a secure backend
+                // (like a Firebase Cloud Function) that triggers on new user creation.
+                console.log(`Awarding referral bonus to ${referrerId}`);
+                const { db, ref, get, update } = window.firebaseServices;
+                const referrerRef = ref(db, `users/${referrerId}`);
+                
+                get(referrerRef).then(snapshot => {
+                    if(snapshot.exists()){
+                        const referrerData = snapshot.val();
+                        const updates = {};
+                        updates.gameTokens = (referrerData.gameTokens || 0) + 1;
+                        
+                        const newBoost = {
+                            amount: 2.5, // 2.5 HP
+                            expiresAt: Date.now() + 30 * this.ONE_DAY_MS // 30-day validity
+                        };
+                        const existingBoosts = referrerData.hpBoosts || [];
+                        updates.hpBoosts = [...existingBoosts, newBoost];
+                        
+                        update(referrerRef, updates);
                     }
                 });
             },
-            
-            async handleReferral(referrerId, newUserId) {
-                const { db, ref, update, get } = window.firebaseServices;
-                const referrerRef = ref(db, 'users/' + referrerId);
-                const snapshot = await get(referrerRef);
-                if (!snapshot.exists()) return;
 
-                const referrerData = snapshot.val();
+            calculateTotalMiningRate() {
                 const now = Date.now();
-                const expiry = now + 30 * 24 * 60 * 60 * 1000;
+                const activeHP = (this.userData.hpBoosts || [])
+                    .filter(boost => boost.expiresAt > now)
+                    .reduce((total, boost) => total + boost.amount, 0);
                 
-                const updates = {};
-                updates[`temporaryHP/ref_${newUserId}`] = { amount: 2.5, expiresAt: expiry };
-                updates.gameTokens = (referrerData.gameTokens || 0) + 1;
-                updates.totalReferrals = (referrerData.totalReferrals || 0) + 1;
-                
-                await update(referrerRef, updates);
-            },
-
-            calculateTotalHP() {
-                let total = this.userData.permanentHP || 0;
-                const tempHP = this.userData.temporaryHP || {};
-                const now = Date.now();
-                const validTempHP = {};
-                
-                for(const key in tempHP){
-                    if(tempHP[key].expiresAt > now){
-                        total += tempHP[key].amount;
-                        validTempHP[key] = tempHP[key];
-                    }
-                }
-
-                if(Object.keys(validTempHP).length !== Object.keys(tempHP).length){
-                     const { db, ref, set } = window.firebaseServices;
-                     set(ref(db, `users/${currentUserId}/temporaryHP`), validTempHP);
-                }
-                this.totalHP = total;
+                const bonusPgPerDay = activeHP * this.HP_TO_PG_DAY_RATE;
+                return this.BASE_PG_PER_DAY + bonusPgPerDay;
             },
 
             checkMiningState() {
-                if (this.userData.miningSessionEndTime && Date.now() < this.userData.miningSessionEndTime) {
+                const now = Date.now();
+                if (this.userData.miningSessionEndTime && now < this.userData.miningSessionEndTime) {
                     this.resumeMining();
                 } else {
                     this.stopMining(true);
@@ -698,35 +824,49 @@
             },
             
             handleStartMiningClick() {
-                this.calculateTotalHP();
-                if(this.totalHP <= 0) { alert("You have no mining power (HP)."); return; }
+                const dailyLimit = this.calculateTotalMiningRate();
+                if (this.userData.pgMinedToday >= dailyLimit) {
+                    alert("Daily mining limit reached. Come back tomorrow or get more HP boosts!");
+                    return;
+                }
                 
-                this.miningButton.disabled = true;
-                this.miningButton.textContent = "Loading Ad...";
+                this.miningButton.disabled = true; this.miningButton.textContent = "Loading Ad...";
                 
-                showRandomAd(() => this._beginActualMiningSession(), (error) => {
-                    alert("Ad failed. Please try again."); this.stopMining(false);
-                });
+                showRandomAd(
+                    () => this._beginActualMiningSession(), // On Ad Success
+                    (error) => { // On Ad Error
+                        alert("You must watch an ad to start mining. Please try again.");
+                        this.stopMining(false);
+                    }
+                );
             },
             
             _beginActualMiningSession() {
                 const { db, ref, update } = window.firebaseServices;
+                const userRef = ref(db, 'users/' + currentUserId);
                 const endTime = Date.now() + this.MINING_SESSION_DURATION_MS;
-                update(ref(db, 'users/' + currentUserId), { miningSessionEndTime: endTime }).then(() => this.resumeMining());
+                update(userRef, { miningSessionEndTime: endTime });
             },
 
             resumeMining() {
                 this.statusEl.textContent = 'Active'; this.statusEl.className = 'mining';
                 this.miningButton.disabled = true; this.miningButton.textContent = 'Mining...';
-                this.calculateTotalHP();
-                const ratePerSecond = (this.totalHP * this.HP_TO_PG_PER_DAY) / 86400;
+
+                const totalRatePerDay = this.calculateTotalMiningRate();
+                const ratePerSecond = totalRatePerDay / 86400; // 86400 seconds in a day
 
                 clearInterval(this.miningInterval);
                 this.miningInterval = setInterval(() => {
-                    const { db, ref, update } = window.firebaseServices;
-                    const newPgBalance = (this.userData.pgBalance || 0) + ratePerSecond;
-                    const newLifetimePg = (this.userData.lifetimePgEarned || 0) + ratePerSecond;
-                    update(ref(db, `users/${currentUserId}`), { pgBalance: newPgBalance, lifetimePgEarned: newLifetimePg });
+                    if (this.userData.pgMinedToday >= totalRatePerDay) {
+                       this.stopMining(true);
+                       return;
+                    }
+                    const updates = {
+                        pgBalance: (this.userData.pgBalance || 0) + ratePerSecond,
+                        pgMinedToday: (this.userData.pgMinedToday || 0) + ratePerSecond,
+                        lifetimePGEarned: (this.userData.lifetimePGEarned || 0) + ratePerSecond
+                    };
+                    this.updateUserData(updates, false); // No need to update display every second
                 }, 1000);
                 
                 clearInterval(this.timerInterval);
@@ -735,294 +875,371 @@
             },
             
             stopMining(sessionExpired) {
-                clearInterval(this.miningInterval); clearInterval(this.timerInterval);
+                clearInterval(this.miningInterval);
+                clearInterval(this.timerInterval);
                 this.statusEl.textContent = sessionExpired ? 'Session Ended' : 'Stopped';
                 this.statusEl.className = 'stopped';
                 this.timerEl.textContent = 'Ready to start';
-                this.miningButton.disabled = false; this.miningButton.textContent = 'Start Mining';
+                this.miningButton.disabled = false;
                 
-                if(sessionExpired && this.userData.miningSessionEndTime) {
-                    const { db, ref, update } = window.firebaseServices;
-                    update(ref(db, `users/${currentUserId}`), { miningSessionEndTime: null });
+                if ((this.userData.pgMinedToday || 0) >= this.calculateTotalMiningRate()) {
+                    this.miningButton.textContent = 'Daily Limit Reached';
+                    this.miningButton.disabled = true;
+                } else {
+                    this.miningButton.textContent = 'Start Mining';
+                }
+                
+                if (sessionExpired && this.userData.miningSessionEndTime) {
+                    this.updateUserData({ miningSessionEndTime: null });
                 }
             },
 
             updateTimer() {
                 const endTime = this.userData.miningSessionEndTime;
-                if (!endTime || Date.now() >= endTime) { this.stopMining(true); return; }
+                if (!endTime) return;
                 const remainingTime = endTime - Date.now();
+                if (remainingTime <= 0) { this.stopMining(true); return; }
                 const h = Math.floor(remainingTime / 3600000);
                 const m = Math.floor((remainingTime % 3600000) / 60000);
                 const s = Math.floor((remainingTime % 60000) / 1000);
-                this.timerEl.textContent = `Time Left: ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+                this.timerEl.textContent = `Time Left: ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
             },
 
-            updateUI() {
+            updateDisplay() {
+                if(!this.userData) return;
                 const pgBal = this.userData.pgBalance || 0;
                 const usdtBal = this.userData.usdtBalance || 0;
                 this.balanceEl.textContent = `${pgBal.toFixed(4)} PG`;
                 this.pgBalanceTopEl.textContent = pgBal.toFixed(4);
                 this.usdBalanceTopEl.textContent = (usdtBal + (pgBal * this.PG_TO_USD_RATE)).toFixed(2);
-                document.getElementById('referral-link').value = `http://t.me/PGenix_Bot/PGenix?startapp=ref_${currentUserId}`;
-                InboxApp.checkForUnread(this.userData.messages, this.userData.readMessages);
                 
-                document.getElementById('withdraw-pg-balance').textContent = pgBal.toFixed(4);
-                document.getElementById('withdraw-usdt-balance').textContent = usdtBal.toFixed(6);
+                // Update inbox notification
+                const unreadMessages = (this.userData.messages || []).filter(m => !m.read).length;
+                const notifEl = document.getElementById('inbox-notification');
+                if (unreadMessages > 0) {
+                    notifEl.textContent = unreadMessages;
+                    notifEl.style.display = 'flex';
+                } else {
+                    notifEl.style.display = 'none';
+                }
             },
             
+            updateUserData(data, shouldUpdateDisplay = true) {
+                const { db, ref, update } = window.firebaseServices;
+                update(ref(db, 'users/' + currentUserId), data);
+                if(shouldUpdateDisplay) this.updateDisplay();
+            },
+
+            getAvailableBalance(type) {
+                const balance = type === 'pg' ? (this.userData.pgBalance || 0) : (this.userData.usdtBalance || 0);
+                const pending = (this.userData.pendingWithdrawals?.[type] || 0);
+                return balance - pending;
+            },
+            
+            renderInbox() {
+                const inboxList = document.getElementById('inbox-list');
+                const messages = (this.userData.messages || []).slice().reverse(); // Show newest first
+                if (messages.length === 0) {
+                    inboxList.innerHTML = `<li class="inbox-placeholder">No new messages.</li>`;
+                    return;
+                }
+                inboxList.innerHTML = messages.map(msg => `
+                    <li>
+                        <h4>${msg.title || 'Message from Admin'}</h4>
+                        <p>${msg.body || ''}</p>
+                        <span class="timestamp">${new Date(msg.timestamp).toLocaleString()}</span>
+                    </li>
+                `).join('');
+                // Mark messages as read
+                const unreadMessageKeys = [];
+                (this.userData.messages || []).forEach((msg, index) => {
+                    if (!msg.read) unreadMessageKeys.push(index);
+                });
+
+                if (unreadMessageKeys.length > 0) {
+                    const updates = {};
+                    unreadMessageKeys.forEach(key => {
+                        updates[`/messages/${key}/read`] = true;
+                    });
+                    this.updateUserData(updates);
+                }
+            },
+
             handleWatchAd() {
                 const today = new Date().toISOString().slice(0, 10);
                 let adsWatched = this.userData.adsWatchedToday || 0;
-                if (this.userData.lastAdWatchDate !== today) adsWatched = 0;
-                if (adsWatched >= 15) { alert('Daily ad limit reached.'); return; }
+                // This check is slightly redundant because of the daily reset logic, but good as a failsafe
+                if (this.userData.lastAdWatchDate !== today) { adsWatched = 0; }
+                if (adsWatched >= 15) { alert('Daily ad limit reached (15/15). Please come back tomorrow.'); return; }
 
-                showRandomAd(() => {
-                    adsWatched++;
-                    const { db, ref, update, set, push } = window.firebaseServices;
-                    const userRef = ref(db, 'users/' + currentUserId);
-                    const rand = Math.random();
-                    let rewardMsg = "You got ";
-                    let updates = { adsWatchedToday: adsWatched, lastAdWatchDate: today };
+                showRandomAd(
+                    () => { // On Ad Success
+                        adsWatched++;
+                        const rand = Math.random();
+                        let rewardMsg = "";
+                        let updates = { adsWatchedToday: adsWatched, lastAdWatchDate: today };
 
-                    if (rand < 0.05) { // 5% Game Token
-                        updates.gameTokens = (this.userData.gameTokens || 0) + 1;
-                        rewardMsg += "1 Game Token (RARE)!";
-                    } else if (rand < 0.45) { // 40% HP
-                        const expiry = Date.now() + 24 * 60 * 60 * 1000;
-                        const newHpRef = push(ref(db, `users/${currentUserId}/temporaryHP`));
-                        set(newHpRef, { amount: 1.5, expiresAt: expiry });
-                        rewardMsg += `1.5 Mining HP for 24 hours!`;
-                    } else if (rand < 0.85) { // 40% USDT
-                        const usdtAmount = Math.random() * (0.002 - 0.0001) + 0.0001;
-                        updates.usdtBalance = (this.userData.usdtBalance || 0) + usdtAmount;
-                        updates.lifetimeUsdtEarned = (this.userData.lifetimeUsdtEarned || 0) + usdtAmount;
-                        rewardMsg += `${usdtAmount.toFixed(6)} USDT!`;
-                    } else { // 15% PG Coin
-                        const pgAmount = 0.001;
-                        updates.pgBalance = (this.userData.pgBalance || 0) + pgAmount;
-                        updates.lifetimePgEarned = (this.userData.lifetimePgEarned || 0) + pgAmount;
-                        rewardMsg += `${pgAmount.toFixed(4)} PG Coin!`;
+                        if (rand < 0.05) { // 5% for Game Token
+                            updates.gameTokens = (this.userData.gameTokens || 0) + 1;
+                            rewardMsg = "RARE! You received 1 Game Token!";
+                        } else if (rand < 0.35) { // 30% for HP
+                             const newBoost = { amount: 1.5, expiresAt: Date.now() + this.ONE_DAY_MS };
+                             updates.hpBoosts = [...(this.userData.hpBoosts || []), newBoost];
+                             rewardMsg = "You received a 1.5 HP mining boost for 24 hours!";
+                        } else if (rand < 0.65) { // 30% for PG Coin
+                            const pgAmount = 0.001;
+                            updates.pgBalance = (this.userData.pgBalance || 0) + pgAmount;
+                            updates.lifetimePGEarned = (this.userData.lifetimePGEarned || 0) + pgAmount;
+                            rewardMsg = `You received ${pgAmount.toFixed(4)} PG Coin!`;
+                        } else { // 35% for USDT
+                            const usdtAmount = Math.random() * (0.002 - 0.0001) + 0.0001;
+                            updates.usdtBalance = (this.userData.usdtBalance || 0) + usdtAmount;
+                            updates.lifetimeUsdtEarned = (this.userData.lifetimeUsdtEarned || 0) + usdtAmount;
+                            rewardMsg = `You received ${usdtAmount.toFixed(6)} USDT!`;
+                        }
+
+                        this.updateUserData(updates);
+                        alert(rewardMsg + `\n\nAds watched today: ${adsWatched}/15`);
+                    },
+                    (error) => { // On Ad Error
+                        alert("Failed to show ad. Please try again.");
                     }
-                    
-                    update(userRef, updates);
-                    alert(rewardMsg + `\nAds watched today: ${adsWatched}/15`);
-                },
-                (error) => alert("Ad failed. Please try again.")
                 );
             }
         };
 
-        const ProfileApp = {
-            render(userData) {
-                document.getElementById('lifetime-pg').textContent = (userData.lifetimePgEarned || 0).toFixed(4);
-                document.getElementById('lifetime-usdt').textContent = (userData.lifetimeUsdtEarned || 0).toFixed(6);
+        function handleConvertClick() {
+            const lastGameScore = MiningApp.userData.lastGameScore || 0;
+            if (lastGameScore >= 1000) {
+                const convertibleScore = Math.floor(lastGameScore / 1000) * 1000;
+                const convertedPG = convertibleScore / MiningApp.SCORE_TO_PG_RATE;
                 
-                const level = userData.level || 1;
-                document.getElementById('current-level').textContent = level;
-                const nextLevelInfo = LevelSystem.levels[level];
+                const updates = {
+                    pgBalance: (MiningApp.userData.pgBalance || 0) + convertedPG,
+                    lifetimePGEarned: (MiningApp.userData.lifetimePGEarned || 0) + convertedPG,
+                    lastGameScore: lastGameScore - convertibleScore
+                };
+                
+                MiningApp.updateUserData(updates);
+                alert(`You converted ${convertibleScore} score into ${convertedPG.toFixed(4)} PG!`);
+            } else { alert('You need at least 1000 score to convert.'); }
+        }
 
-                if (!nextLevelInfo || !nextLevelInfo.nextLevel) {
-                    document.getElementById('next-level-label').textContent = "Max Level";
-                    document.getElementById('level-progress-bar').style.width = "100%";
-                    document.getElementById('progress-label').textContent = "Completed";
-                    document.getElementById('level-req-list').innerHTML = `<li>You are at the maximum level!</li>`;
-                    return;
-                }
-                
-                document.getElementById('next-level-label').textContent = `To Level ${nextLevelInfo.nextLevel}`;
-                const req = nextLevelInfo.req;
-                const reqListEl = document.getElementById('level-req-list');
-                reqListEl.innerHTML = '';
-                
-                let completedCount = 0;
-                const totalReqs = Object.keys(req).length;
-                const check = (val, target) => val >= target;
+        function handleWithdraw(type, method) {
+            const { db, ref, push, update, serverTimestamp, get } = window.firebaseServices;
+            const min = type === 'pg' ? 25 : 1;
+            const amount = parseFloat(document.getElementById(`${type}-withdraw-amount`).value);
+            const address = document.getElementById(`${type}-withdraw-address`).value;
+            const availableBalance = MiningApp.getAvailableBalance(type);
+            
+            if (!amount || isNaN(amount) || !address) { alert('Please fill in both amount and address.'); return; }
+            if (amount < min) { alert(`Minimum withdrawal for ${type.toUpperCase()} is ${min}.`); return; }
+            if (amount > availableBalance) { alert('Insufficient available balance. You may have other pending withdrawals.'); return; }
+            
+            const requestData = {
+                userId: currentUserId,
+                amount: amount,
+                currency: type.toUpperCase(),
+                address: address,
+                method: method,
+                status: 'pending',
+                createdAt: serverTimestamp()
+            };
 
-                if (req.pg) { const isDone = check(userData.lifetimePgEarned || 0, req.pg); if(isDone) completedCount++; reqListEl.innerHTML += `<li class="${isDone ? 'completed' : ''}">PG Earned: ${(userData.lifetimePgEarned || 0).toFixed(2)} / ${req.pg}</li>`; }
-                if (req.usdt) { const isDone = check(userData.lifetimeUsdtEarned || 0, req.usdt); if(isDone) completedCount++; reqListEl.innerHTML += `<li class="${isDone ? 'completed' : ''}">USDT Earned: ${(userData.lifetimeUsdtEarned || 0).toFixed(4)} / ${req.usdt}</li>`; }
-                if (req.withdrawals) { const isDone = check(userData.totalWithdrawals || 0, req.withdrawals); if(isDone) completedCount++; reqListEl.innerHTML += `<li class="${isDone ? 'completed' : ''}">Withdrawals: ${userData.totalWithdrawals || 0} / ${req.withdrawals}</li>`; }
-                if (req.referrals) { const isDone = check(userData.totalReferrals || 0, req.referrals); if(isDone) completedCount++; reqListEl.innerHTML += `<li class="${isDone ? 'completed' : ''}">Referrals: ${userData.totalReferrals || 0} / ${req.referrals}</li>`; }
+            const requestsRef = ref(db, 'withdrawal_requests');
+            const userRef = ref(db, `users/${currentUserId}`);
+
+            get(userRef).then(snapshot => {
+                const userData = snapshot.val();
+                const currentPending = userData.pendingWithdrawals?.[type] || 0;
+                const newPending = currentPending + amount;
                 
-                const progress = totalReqs > 0 ? (completedCount / totalReqs) * 100 : 100;
-                document.getElementById('level-progress-bar').style.width = `${progress}%`;
-                document.getElementById('progress-label').textContent = `${completedCount}/${totalReqs} tasks`;
-            }
-        };
+                push(requestsRef, requestData)
+                    .then(() => update(ref(db, `users/${currentUserId}/pendingWithdrawals`), { [type]: newPending }))
+                    .then(() => {
+                        alert(`Withdrawal request for ${amount} ${type.toUpperCase()} submitted. It is now pending review by an admin.`);
+                        document.getElementById(`${type}-withdraw-amount`).value = '';
+                        document.getElementById(`${type}-withdraw-address`).value = '';
+                    })
+                    .catch(err => {
+                        console.error("Withdrawal request failed:", err);
+                        alert("An error occurred. Please try again.");
+                    });
+            });
+        }
         
-        const InboxApp = {
-            allMessages: {},
-            checkForUnread(messages = {}, readMessages = {}) {
-                const { db, ref, onValue } = window.firebaseServices;
-                onValue(ref(db, 'messages/ALL'), (snapshot) => {
-                    const broadcastMessages = snapshot.val() || {};
-                    const allUserMessages = {...broadcastMessages, ...(messages)};
-                    this.allMessages = allUserMessages;
+        function handleCreateTask() {
+            const { db, ref, push, update, serverTimestamp, get } = window.firebaseServices;
+            const selectedPackage = document.querySelector('input[name="task_package"]:checked');
+            if (!selectedPackage) { alert("Please select a task package."); return; }
+            
+            const price = parseFloat(selectedPackage.value);
+            const availableUSDT = MiningApp.getAvailableBalance('usdt');
+
+            if (availableUSDT >= price) {
+                const requestData = {
+                    userId: currentUserId,
+                    packageValue: price,
+                    status: 'pending_review',
+                    createdAt: serverTimestamp()
+                };
+                
+                const userRef = ref(db, `users/${currentUserId}`);
+                get(userRef).then(snapshot => {
+                    const userData = snapshot.val();
+                    const currentPendingUSDT = userData.pendingWithdrawals?.usdt || 0;
+                    const newPendingUSDT = currentPendingUSDT + price;
                     
-                    const unreadCount = Object.keys(allUserMessages).filter(msgId => !readMessages[msgId]).length;
-                    document.getElementById('unread-dot').style.display = unreadCount > 0 ? 'block' : 'none';
+                    push(ref(db, 'task_requests'), requestData)
+                        .then(() => update(ref(db, `users/${currentUserId}/pendingWithdrawals`), { usdt: newPendingUSDT }))
+                        .then(() => {
+                            alert(`Task creation request for $${price.toFixed(2)} submitted successfully! It is now under review by an admin.`);
+                            showView('mining-section');
+                        })
+                        .catch(err => {
+                            console.error("Task creation failed:", err);
+                            alert("An error occurred while creating the task. Please try again.");
+                        });
                 });
-            },
-            render(messages = {}, readMessages = {}) {
-                const listEl = document.getElementById('inbox-list');
-                listEl.innerHTML = '';
-                const sortedMessages = Object.entries(this.allMessages).sort((a,b) => b[1].timestamp - a[1].timestamp);
-
-                if (sortedMessages.length === 0) { listEl.innerHTML = '<div class="no-data">No messages yet.</div>'; return; }
-
-                sortedMessages.forEach(([id, msg]) => {
-                    const isUnread = !readMessages[id];
-                    const card = document.createElement('div');
-                    card.className = `message-card ${isUnread ? 'unread' : ''}`;
-                    card.innerHTML = `<div class="message-header"><span class="message-title">${msg.title}</span><span class="message-date">${new Date(msg.timestamp).toLocaleDateString()}</span></div><div class="message-body">${msg.body}</div>`;
-                    card.onclick = () => this.markAsRead(id);
-                    listEl.appendChild(card);
-                });
-            },
-            markAsRead(messageId) {
-                const { db, ref, update } = window.firebaseServices;
-                const updates = {};
-                updates[`readMessages/${messageId}`] = true;
-                update(ref(db, `users/${currentUserId}`), updates);
+            } else {
+                alert("Insufficient USDT balance. Please deposit or earn more.");
             }
-        };
+        }
 
-        const GameApp = {
-            showStartScreen() {
-                const tokens = MiningApp.userData.gameTokens || 0;
-                document.getElementById('game-token-count').innerHTML = `You have <span>${tokens}</span> Game Tokens.`;
-                document.getElementById('start-game-btn').disabled = tokens <= 0;
-            },
-            consumeTokenAndStart() {
-                const tokens = MiningApp.userData.gameTokens || 0;
-                if(tokens <= 0) return;
-
-                const { db, ref, update } = window.firebaseServices;
-                update(ref(db, `users/${currentUserId}`), { gameTokens: tokens - 1 });
-                
-                document.getElementById('game-start-screen').style.display = 'none';
-                document.getElementById('game-container').style.display = 'block';
-                
-                if (!SnowCatcherGame.isInitialized) SnowCatcherGame.init();
-                SnowCatcherGame.startGame();
-            }
-        };
-        
+        // --- SNOW CATCHER GAME SCRIPT ---
         const SnowCatcherGame = {
-            isInitialized: false, score: 0, usdtScore: 0.0, timeRemaining: 60,
+            isInitialized: false, score: 0, missed: 0, usdtScore: 0.0, timeRemaining: 60, baseSpeed: 1.0, isGameOver: true,
+            
             init() {
                 if(this.isInitialized) return;
-                this.gameContainer = document.getElementById('game-container');
-                this.scoreSpan = document.getElementById('score');
-                this.usdtScoreSpan = document.getElementById('usdt-score');
-                this.timerSpan = document.getElementById('timer-value');
-                this.gameOverDiv = document.getElementById('game-over');
-                this.finalScoreSpan = document.getElementById('final-score');
-                this.finalUsdtScoreSpan = document.getElementById('final-usdt-score');
-                this.restartButton = document.getElementById('restart-button');
-                
-                this.gameContainer.addEventListener('pointerdown', (e) => { if (e.target.matches('.falling-object')) this.handleObjectClick(e.target); });
-                this.restartButton.addEventListener('click', () => {
-                    this.gameOverDiv.style.display = 'none';
-                    GameApp.consumeTokenAndStart();
+                Object.assign(this, {
+                    gameContainer: document.querySelector('#game-section #game-container'), 
+                    scoreSpan: document.querySelector('#game-section #score'),
+                    missedSpan: document.querySelector('#game-section #missed'), 
+                    usdtScoreSpan: document.querySelector('#game-section #usdt-score'),
+                    timerSpan: document.querySelector('#game-section #timer-value'), 
+                    gameOverDiv: document.querySelector('#game-section #game-over'),
+                    tokenCountSpan: document.querySelector('#game-section #game-token-count'),
+                    startScreen: document.querySelector('#game-section #game-start-screen'),
+                    activeArea: document.querySelector('#game-section #game-active-area'),
+                    startButton: document.querySelector('#game-section #start-game-button')
                 });
+                this.gameContainer.addEventListener('pointerdown', (e) => { if (e.target.matches('.falling-object')) this.handleObjectClick(e.target); });
                 this.isInitialized = true;
             },
-            createFallingObject() {
-                if (this.isGameOver) return;
-                const r = Math.random();
-                this.createObject(r < 0.08 ? '💣' : (r < 0.15 ? '💸' : '❄️'), r < 0.08 ? 'bomb' : (r < 0.15 ? 'coin' : 'snowflake'));
+             showStartScreen() {
+                this.tokenCountSpan.textContent = MiningApp.userData.gameTokens || 0;
+                this.startScreen.style.display = 'block';
+                this.activeArea.style.display = 'none';
+                this.gameOverDiv.style.display = 'none';
+                this.startButton.disabled = (MiningApp.userData.gameTokens || 0) < 1;
             },
+             handleStartClick() {
+                if ((MiningApp.userData.gameTokens || 0) < 1) {
+                    alert("You don't have enough game tokens!");
+                    return;
+                }
+                MiningApp.updateUserData({ gameTokens: (MiningApp.userData.gameTokens || 0) - 1 });
+                this.startGame();
+            },
+            createFallingObject() { if (this.isGameOver) return; const r = Math.random(); this.createObject(r < 0.08 ? '💣' : (r < 0.15 ? '💸' : '❄️'), r < 0.08 ? 'bomb' : (r < 0.15 ? 'coin' : 'snowflake')); },
             createObject(emoji, type) {
-                const obj = document.createElement('div');
-                obj.className = 'falling-object';
-                obj.innerHTML = emoji;
-                obj.dataset.type = type;
-                obj.style.left = Math.random() * (this.gameContainer.offsetWidth - 50) + 'px';
-                obj.style.top = '-50px';
-                obj.dataset.speed = Math.random() * 1.5 + this.baseSpeed;
+                const obj = document.createElement('div'); obj.className = 'falling-object'; obj.classList.add(type); obj.innerHTML = emoji;
+                obj.dataset.type = type; obj.style.left = Math.random() * (this.gameContainer.offsetWidth - 70) + 'px';
+                obj.style.top = '-50px'; obj.style.fontSize = (Math.random() * 12 + 24) + 'px';
+                obj.dataset.speed = Math.random() * 1.5 + this.baseSpeed; obj.dataset.sway = (Math.random() - 0.5) * 2;
+                obj.dataset.swayAngle = Math.random() * Math.PI * 2;
                 if (type === 'coin') obj.dataset.value = Math.random() * (0.001 - 0.0001) + 0.0001;
                 this.gameContainer.appendChild(obj);
             },
             handleObjectClick(obj) {
-                if (this.isGameOver || obj.classList.contains('collected')) return;
-                obj.classList.add('collected');
-                setTimeout(() => obj.remove(), 300);
-                if (obj.dataset.type === 'snowflake') { this.score += 10; this.scoreSpan.textContent = this.score; } 
-                else if (obj.dataset.type === 'coin') { this.usdtScore += parseFloat(obj.dataset.value); this.usdtScoreSpan.textContent = this.usdtScore.toFixed(6); } 
-                else if (obj.dataset.type === 'bomb') this.endGame('bomb');
+                if (this.isGameOver || obj.classList.contains('collected')) return; const type = obj.dataset.type;
+                if (type === 'snowflake') { this.score++; this.scoreSpan.textContent = this.score; this.animateAndRemove(obj); } 
+                else if (type === 'coin') { this.usdtScore += parseFloat(obj.dataset.value); this.usdtScoreSpan.textContent = this.usdtScore.toFixed(6); this.animateAndRemove(obj); } 
+                else if (type === 'bomb') this.endGame('bomb');
             },
+            animateAndRemove(obj) { obj.classList.add('collected'); setTimeout(() => { if(obj) obj.remove(); }, 300); },
             gameLoop() {
-                document.querySelectorAll('.falling-object:not(.collected)').forEach(obj => {
+                if (this.isGameOver) return;
+                document.querySelectorAll('#game-section .falling-object:not(.collected)').forEach(obj => {
                     let top = parseFloat(obj.style.top) + parseFloat(obj.dataset.speed);
-                    obj.style.top = top + 'px';
-                    if (top > this.gameContainer.offsetHeight) { obj.remove(); }
+                    let left = parseFloat(obj.style.left) + Math.sin(parseFloat(obj.dataset.swayAngle)) * parseFloat(obj.dataset.sway);
+                    if (left < 0) left = 0; if (left > this.gameContainer.offsetWidth - obj.offsetWidth) left = this.gameContainer.offsetWidth - obj.offsetWidth;
+                    obj.style.top = top + 'px'; obj.style.left = left + 'px'; obj.dataset.swayAngle = parseFloat(obj.dataset.swayAngle) + 0.05;
+                    if (top > this.gameContainer.offsetHeight) { if (obj.classList.contains('snowflake')) { this.missed++; this.missedSpan.textContent = this.missed; } obj.remove(); }
                 });
             },
+            setCreationInterval(ms) { clearInterval(this.objectCreationInterval); this.objectCreationInterval = setInterval(() => this.createFallingObject(), ms); },
             startGame() {
-                this.isGameOver = false; this.score = 0; this.usdtScore = 0.0; this.timeRemaining = 60; this.baseSpeed = 1.0;
-                this.scoreSpan.textContent = this.score; this.usdtScoreSpan.textContent = this.usdtScore.toFixed(6);
+                this.isGameOver = false; this.score = 0; this.missed = 0; this.usdtScore = 0.0; this.timeRemaining = 60; this.baseSpeed = 1.0;
+                this.scoreSpan.textContent = this.score; this.missedSpan.textContent = this.missed; this.usdtScoreSpan.textContent = this.usdtScore.toFixed(6);
                 this.timerSpan.textContent = this.timeRemaining; this.gameOverDiv.style.display = 'none'; this.gameContainer.style.cursor = 'crosshair';
-                document.querySelectorAll('.falling-object').forEach(el => el.remove());
-
-                this.gameLoopInterval = setInterval(() => this.gameLoop(), 16);
-                this.objectCreationInterval = setInterval(() => this.createFallingObject(), 800);
-                this.gameTimer = setTimeout(() => this.endGame('time'), 60000);
+                this.startScreen.style.display = 'none'; this.activeArea.style.display = 'flex';
+                document.querySelectorAll('#game-section .falling-object').forEach(el => el.remove()); this.clearAllIntervals();
+                this.gameLoopInterval = setInterval(() => this.gameLoop(), 16); this.setCreationInterval(800); this.gameTimer = setTimeout(() => this.endGame('time'), 60000);
                 this.countdownInterval = setInterval(() => {
                     this.timeRemaining--; this.timerSpan.textContent = this.timeRemaining; this.baseSpeed += 0.05;
-                    if(this.timeRemaining <= 0) clearInterval(this.countdownInterval);
+                    if (this.timeRemaining === 45) this.setCreationInterval(600); else if (this.timeRemaining === 30) this.setCreationInterval(400); else if (this.timeRemaining === 15) this.setCreationInterval(250);
                 }, 1000);
             },
+            clearAllIntervals() { clearInterval(this.gameLoopInterval); clearInterval(this.objectCreationInterval); clearInterval(this.countdownInterval); clearTimeout(this.gameTimer); },
             endGame(reason) {
-                if (this.isGameOver) return; this.isGameOver = true;
-                clearInterval(this.gameLoopInterval); clearInterval(this.objectCreationInterval); clearInterval(this.countdownInterval); clearTimeout(this.gameTimer);
-                
-                if (reason === 'bomb') { this.score = 0; this.usdtScore = 0.0; }
+                if (this.isGameOver) return; this.isGameOver = true; this.clearAllIntervals();
+                if (reason === 'view-switch') { this.showStartScreen(); return; }
 
-                this.finalScoreSpan.textContent = this.score;
-                this.finalUsdtScoreSpan.textContent = this.usdtScore.toFixed(6);
-                
-                const { db, ref, update } = window.firebaseServices;
-                const updates = {};
-                const pgFromScore = this.score / 1000; // 1000 score = 1 PG
-                updates.pgBalance = (MiningApp.userData.pgBalance || 0) + pgFromScore;
-                updates.lifetimePgEarned = (MiningApp.userData.lifetimePgEarned || 0) + pgFromScore;
-                if (this.usdtScore > 0) {
-                    updates.usdtBalance = (MiningApp.userData.usdtBalance || 0) + this.usdtScore;
-                    updates.lifetimeUsdtEarned = (MiningApp.userData.lifetimeUsdtEarned || 0) + this.usdtScore;
+                let gameOverHTML = '';
+                if (reason === 'bomb') {
+                    gameOverHTML = `<h2 style="color:var(--red-glow)">You hit a bomb!</h2><p>Your scores for this round are void.</p>`;
+                } else { // Time's up
+                    gameOverHTML = `
+                        <h2 style="color:var(--primary-color)">Time's Up!</h2>
+                        <p>Final Score: <span>${this.score}</span></p>
+                        <p>Total USDT: <span>${this.usdtScore.toFixed(6)}</span></p>`;
+                    
+                    let updates = { lastGameScore: (MiningApp.userData.lastGameScore || 0) + this.score };
+                    if (this.usdtScore > 0) {
+                        updates.usdtBalance = (MiningApp.userData.usdtBalance || 0) + this.usdtScore;
+                        updates.lifetimeUsdtEarned = (MiningApp.userData.lifetimeUsdtEarned || 0) + this.usdtScore;
+                    }
+                    MiningApp.updateUserData(updates);
                 }
-                update(ref(db, 'users/' + currentUserId), updates);
-
-                this.gameOverDiv.style.display = 'block';
-                this.restartButton.disabled = (MiningApp.userData.gameTokens || 0) <= 1; // Check if tokens left for another game
+                
+                gameOverHTML += `<button id="restart-button-gameover">Play Again (1 Token)</button>`;
+                this.gameOverDiv.innerHTML = gameOverHTML;
+                this.gameOverDiv.style.display = 'block'; 
+                this.gameContainer.style.cursor = 'default';
+                
+                const restartBtn = this.gameOverDiv.querySelector('#restart-button-gameover');
+                restartBtn.addEventListener('click', () => this.handleStartClick());
+                restartBtn.disabled = (MiningApp.userData.gameTokens || 0) < 1;
             }
         };
 
+        // --- App Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-            const adexiumScript = document.createElement('script');
-            adexiumScript.src = "https://cdn.tgads.space/assets/js/adexium-widget.min.js";
-            adexiumScript.onload = () => {
-                try {
-                    new AdexiumWidget({wid: '591a49b2-631d-4270-ad75-bf7afd247d5f', adFormat: 'interstitial'}).autoMode();
-                } catch (e) { console.error("Adexium widget failed:", e); }
-            };
-            document.head.appendChild(adexiumScript);
-
             if (window.firebaseServices) {
                 const tg = window.Telegram.WebApp;
                 tg.ready();
                 tg.expand();
 
                 let userId, referrerId = null;
-                const startParam = tg.initDataUnsafe?.start_param;
-                
-                if (startParam && startParam.startsWith('ref_')) { referrerId = startParam.substring(4); }
-                if (tg.initDataUnsafe?.user?.id) { userId = "tg_user_" + tg.initDataUnsafe.user.id; } 
-                else { userId = "web_user_" + Date.now(); }
+                if (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.id) {
+                    userId = "tg_user_" + tg.initDataUnsafe.user.id;
+                    const startParam = tg.initDataUnsafe.start_param;
+                    if(startParam) {
+                        referrerId = startParam;
+                    }
+                    console.log(`Telegram user: ${userId}, Referrer: ${referrerId || 'None'}`);
+                } else {
+                    userId = "web_user_test_abc_123"; // Fallback for testing
+                    console.warn("Telegram user not found. Using fallback ID:", userId);
+                }
                 
                 MiningApp.init(userId, referrerId);
                 showView('mining-section');
             } else {
                 console.error("Firebase services not available.");
+                alert("Error: Could not connect to the database. Please refresh.");
             }
         });
     </script>
